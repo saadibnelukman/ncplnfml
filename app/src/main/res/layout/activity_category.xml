@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context=".CategoryActivity"
+    android:id="@+id/bg">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose Category"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            android:layout_marginTop="90dp"
+            android:textAlignment="center"
+            android:textAllCaps="true">
+
+        </TextView>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="230dp"
+            />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnCart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:elevation="8dp"
+
+            android:src="@drawable/ic_shopping_cart_black_24dp"
+            app:pressedTranslationZ="12dp"
+            app:useCompatPadding="true">
+
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+</RelativeLayout>

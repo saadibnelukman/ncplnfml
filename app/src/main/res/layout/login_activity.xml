@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+
+        >
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/mjlogo"
+            android:layout_gravity="center"
+            >
+        </ImageView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="300dp"
+                android:layout_height="50sp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:hint="User Name"
+                android:inputType="text"
+                android:textColorHint="@color/black"
+                android:background="@drawable/input_field"
+                android:imeOptions="actionNext"
+
+
+
+                >
+
+            </EditText>
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="300dp"
+                android:layout_height="50sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="40dp"
+                android:layout_gravity="center"
+                android:textColorHint="@color/black"
+                android:background="@drawable/input_field"
+                android:hint="Password"
+                android:inputType="numberPassword"
+                android:imeOptions="actionNext"
+
+
+                >
+
+            </EditText>
+
+        </LinearLayout>
+
+    <Button
+        android:id="@+id/signinbtn"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/darkbutton"
+        android:textColor="@color/white"
+        android:text="Sign In"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:imeOptions="actionDone"
+        >
+
+    </Button>
+
+    </LinearLayout>
+
+</LinearLayout>
