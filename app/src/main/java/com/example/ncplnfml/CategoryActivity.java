@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,13 +35,15 @@ public class CategoryActivity extends AppCompatActivity {
     private String categoryQuery;
     //String category;
 
+    FloatingActionButton cartBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
 
         recyclerView = findViewById(R.id.recyclerView);
-
+        cartBtn = findViewById(R.id.btnCart);
 
         categoryQuery = "select DISTINCT(ITEM_CATEGORY) from INVENTORY_ITEM";
         initializeConnection();
@@ -79,6 +83,14 @@ public class CategoryActivity extends AppCompatActivity {
             @Override
             public void onItemLongClick(int position, View v) {
 
+            }
+        });
+
+        cartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CategoryActivity.this,OrderActivity.class);
+                startActivity(intent);
             }
         });
 

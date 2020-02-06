@@ -5,6 +5,13 @@ import java.util.ArrayList;
 public class Model {
 
     private boolean isSelected;
+    private String product;
+    public Model(String product) {
+        this.product = product;
+    }
+
+
+
 
     public String getProduct() {
         return product;
@@ -13,8 +20,6 @@ public class Model {
     public void setProduct(String product) {
         this.product = product;
     }
-
-    private String product;
 
     public boolean isSelected() {
         return isSelected;
