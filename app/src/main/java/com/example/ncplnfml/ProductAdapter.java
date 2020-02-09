@@ -10,10 +10,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.ncplnfml.CategoryActivity.addQty;
 import static com.example.ncplnfml.CategoryActivity.getList;
 //import static com.example.ncplnfml.ProductActivity.getProduct;
 //import static com.example.ncplnfml.ProductActivity.getProducts;
@@ -55,7 +58,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyNewViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final MyNewViewHolder holder, final int position) {
          final Model product=products[position];
         holder.productTextView.setText(product.getProduct());
         //holder.productTextView.setText(getProduct().get(position));
@@ -68,16 +71,28 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
                 CheckBox myCheckBox= (CheckBox) v;
                 Model currentProduct=products[pos];
 
-                if(myCheckBox.isChecked()) {
+                if(myCheckBox.isChecked() && Integer.parseInt(holder.qtyBtn.getNumber()) != 0) {
                     currentProduct.setSelected(true);
                     checkedProducts.add(currentProduct);
+                    addQty(position,holder.qtyBtn.getNumber());
+//                    holder.qtyBtn.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
+//                        @Override
+//                        public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
+//                            addQty(position,newValue+"");
+//                        }
+//                    });
+
                 }
                 else if(!myCheckBox.isChecked()) {
                     currentProduct.setSelected(false);
                     checkedProducts.remove(currentProduct);
+                }else {
+                    myCheckBox.setChecked(false);
                 }
             }
         });
+
+
 
 
 
@@ -98,6 +113,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
 
         ItemClickListener itemClickListener;
         //ClickListenerProduct clickListenerProduct;
+        ElegantNumberButton qtyBtn;
 
         public MyNewViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -106,6 +122,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
             //itemView.setOnClickListener(this);
             myCheckBox= itemView.findViewById(R.id.checkbox);
             myCheckBox.setOnClickListener(this);
+
+            qtyBtn = itemView.findViewById(R.id.numberButton);
+            qtyBtn.setOnClickListener(this);
         }
         public void setItemClickListener(ItemClickListener ic)
         {

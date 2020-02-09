@@ -31,6 +31,7 @@ public class OrderActivity extends AppCompatActivity {
     //ElegantNumberButton numberButton;
     //private String productName = "";
     ArrayList<String> orderProducts = new ArrayList<>();
+     ArrayList<String> qtyProducts = new ArrayList<>();
 
    // OrderAdapter orderAdapter;
 
@@ -56,7 +57,13 @@ public class OrderActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(orderAdapter);
+        }
+        if(getIntent().hasExtra("qty")){
 
+            qtyProducts = getIntent().getStringArrayListExtra("qty");
+            OrderAdapter orderAdapter = new OrderAdapter(this,qtyProducts);
+            recyclerView.setLayoutManager(new LinearLayoutManager(this));
+            recyclerView.setAdapter(orderAdapter);
 
         }
 

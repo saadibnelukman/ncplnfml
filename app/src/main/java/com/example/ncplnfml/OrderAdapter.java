@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import static com.example.ncplnfml.ProductActivity.getOrderProduct;
+import static com.example.ncplnfml.CategoryActivity.getOrderProduct;
+import static com.example.ncplnfml.CategoryActivity.getQtyProducts;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder> {
 
@@ -35,6 +36,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull OrderAdapter.MyViewHolder holder, int position) {
 
         holder.productName.setText(getOrderProduct().get(position));
+        holder.qty.setText(getQtyProducts().get(position));
 
     }
 
@@ -45,11 +47,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView productName;
+        TextView productName,qty;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             productName = itemView.findViewById(R.id.product_name);
+            qty = itemView.findViewById(R.id.qty);
         }
     }
 }

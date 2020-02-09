@@ -6,8 +6,10 @@ public class Model {
 
     private boolean isSelected;
     private String product;
-    public Model(String product) {
+    private String PID;
+    public Model(String product,String PID) {
         this.product = product;
+        this.PID = PID;
     }
 
 
@@ -17,6 +19,9 @@ public class Model {
         return product;
     }
 
+    public String getPID() {
+        return PID;
+    }
     public void setProduct(String product) {
         this.product = product;
     }

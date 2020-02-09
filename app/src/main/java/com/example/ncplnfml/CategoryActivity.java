@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -31,6 +32,10 @@ public class CategoryActivity extends AppCompatActivity {
     CatergoryAdaptor catergoryAdaptor;
    // private ArrayList<String> category = new ArrayList<>();
     private static ArrayList<String> category = new ArrayList<>();
+    static ArrayList<String> orderProducts = new ArrayList<>();
+    static ArrayList<String> qtyProducts = new ArrayList<>();
+    static ArrayList<String> orderPID = new ArrayList<>();
+
     RecyclerView recyclerView;
     private String categoryQuery;
     //String category;
@@ -90,6 +95,8 @@ public class CategoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CategoryActivity.this,OrderActivity.class);
+                intent.putExtra("product",orderProducts);
+                intent.putExtra("qty",qtyProducts);
                 startActivity(intent);
             }
         });
@@ -98,6 +105,25 @@ public class CategoryActivity extends AppCompatActivity {
 
     public static ArrayList<String>getList(){
         return category;
+    }
+
+    public static void addToArray(String s,String p){
+        orderProducts.add(s);
+        orderPID.add(p);
+    }
+    public static void addQty(int position, String q){
+        qtyProducts.add(q);
+        Log.d("Array", q+"--"+position);
+//        Toast.makeText(CategoryActivity.this,q+"--"+ position,Toast.LENGTH_SHORT).show();
+    }
+    public static ArrayList<String> getOrderProduct(){
+        return orderProducts;
+    }
+    public static ArrayList<String>getQtyProducts(){
+        return qtyProducts;
+    }
+    public static ArrayList<String>getOrderPID(){
+        return orderPID;
     }
     public void initializeConnection(){
         try {

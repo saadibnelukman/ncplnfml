@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.sql.Array;
@@ -25,6 +26,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.ncplnfml.CategoryActivity.addToArray;
 import static com.example.ncplnfml.LoginActivity.createConnection;
 
 public class ProductActivity extends AppCompatActivity {
@@ -34,6 +36,7 @@ public class ProductActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     FloatingActionButton fbtn;
+    ElegantNumberButton qtyBtn;
     ListView listView;
 
     private String productQuery;
@@ -45,6 +48,7 @@ public class ProductActivity extends AppCompatActivity {
 
 
     private static ArrayList<String>product = new ArrayList<>();
+    private static ArrayList<String>pid = new ArrayList<>();
     private static Model[] model;
     //public static Model[] model;
 
@@ -53,6 +57,7 @@ public class ProductActivity extends AppCompatActivity {
 
      static ArrayList<String> orderProducts;
     //ProductAdapter adapter;
+    String qty ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +68,7 @@ public class ProductActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.product_RV);
 
         fbtn = findViewById(R.id.AddBtn);
+        qtyBtn = (ElegantNumberButton) findViewById(R.id.numberButton);
 
 
         if(getIntent().hasExtra("category")){
@@ -70,25 +76,27 @@ public class ProductActivity extends AppCompatActivity {
 
         }
 
-        productQuery ="select DESCRIPTION from INVENTORY_ITEM where ITEM_CATEGORY = '"+ category +"'";
+        productQuery ="select DESCRIPTION, INVENTORY_ITEM_ID from INVENTORY_ITEM where ITEM_CATEGORY = '"+ category +"'";
 
         //String p;
 
         initializeConnection();
         product.clear();
+        pid.clear();
         try {
             PreparedStatement preparedStatementProduct = connection.prepareStatement(productQuery);
             ResultSet resultSetProduct = preparedStatementProduct.executeQuery();
 
             while (resultSetProduct.next()) {
                 product.add(resultSetProduct.getString(1));
+                pid.add(resultSetProduct.getString(2));
 
                 //Model[] model = new Model(resultSetProduct.getString(i));
 
             }
             model = new Model[product.size()];
             for(int i=0; i< model.length;i++) {
-                model[i] = new Model(product.get(i));
+                model[i] = new Model(product.get(i),pid.get(i));
             }
             Toast.makeText(ProductActivity.this,model.length+"", Toast.LENGTH_SHORT).show();
 
@@ -99,7 +107,20 @@ public class ProductActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+//        qtyBtn.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
+//            @Override
+//            public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
+//                 = qtyBtn.getNumber();
+//
+//            }
+//        });
 
+//        qtyBtn.setOnClickListener(qtynew ElegantNumberButton.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                             qty = qtyBtn.getNumber();
+//                        }
+//                    });
 
        // productAdapter = new ProductAdapter(this,getProducts());
         fbtn.setOnClickListener(new View.OnClickListener() {
@@ -107,13 +128,23 @@ public class ProductActivity extends AppCompatActivity {
             public void onClick(View view) {
                 sb=new StringBuilder();
 
-                orderProducts = new ArrayList<>();
+//                orderProducts = new ArrayList<>();
 
                 int i=0;
                 do {
                     Model product=productAdapter.checkedProducts.get(i);
 
-                    orderProducts.add(product.getProduct());
+//                    orderProducts.add(product.getProduct());
+
+
+//                    qtyBtn.setOnClickListener(new ElegantNumberButton.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                             qty = qtyBtn.getNumber();
+//                        }
+//                    });
+
+                    addToArray(product.getProduct(),product.getPID());
 
                     sb.append(product.getProduct());
 
@@ -126,14 +157,14 @@ public class ProductActivity extends AppCompatActivity {
                 }while (i < productAdapter.checkedProducts.size());
 
 
-                Intent intent = new Intent(ProductActivity.this,OrderActivity.class);
+//                Intent intent = new Intent(ProductActivity.this,OrderActivity.class);
+////                intent.putExtra("product",orderProducts);
 //                intent.putExtra("product",orderProducts);
-                intent.putExtra("product",orderProducts);
-                startActivity(intent);
+//                startActivity(intent);
 
                 if(productAdapter.checkedProducts.size()>0)
                 {
-                    Toast.makeText(ProductActivity.this,orderProducts.size()+"Items Added"+"",Toast.LENGTH_LONG).show();
+                    Toast.makeText(ProductActivity.this,"Items Added"+"",Toast.LENGTH_LONG).show();
                 }else
                 {
                     Toast.makeText(ProductActivity.this,"Please Check An Item First", Toast.LENGTH_SHORT).show();
@@ -174,21 +205,21 @@ public class ProductActivity extends AppCompatActivity {
 
 
 
-    public Model[] getProduct(){
-        for(int i=0 ;i< model.length;i++) {
+//    public Model[] getProduct(){
+//        for(int i=0 ;i< model.length;i++) {
+//
+//                    model[i].setProduct(product.get(i));
+//                    //Model[] model = new Model(resultSetProduct.getString(i));
+//
+//                    Toast.makeText(this,"do", Toast.LENGTH_SHORT).show();
+//                         }
+//
+//        return model;
+//    }
 
-                    model[i].setProduct(product.get(i));
-                    //Model[] model = new Model(resultSetProduct.getString(i));
-
-                    Toast.makeText(this,"do", Toast.LENGTH_SHORT).show();
-                         }
-
-        return model;
-    }
-
-    public static ArrayList<String> getOrderProduct(){
-        return orderProducts;
-    }
+//    public static ArrayList<String> getOrderProduct(){
+//        return orderProducts;
+//    }
 
 
     public void initializeConnection(){
