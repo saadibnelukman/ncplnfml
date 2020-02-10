@@ -91,12 +91,15 @@ public class CategoryActivity extends AppCompatActivity {
             }
         });
 
+
+
         cartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CategoryActivity.this,OrderActivity.class);
                 intent.putExtra("product",orderProducts);
                 intent.putExtra("qty",qtyProducts);
+                intent.putExtra("pid",orderPID);
                 startActivity(intent);
             }
         });
