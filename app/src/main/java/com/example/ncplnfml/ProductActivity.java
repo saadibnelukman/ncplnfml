@@ -10,7 +10,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -42,6 +44,8 @@ public class ProductActivity extends AppCompatActivity {
     private String productQuery;
     private String category = "";
 
+    private int counter;
+
 
 
     CheckBox checkBox;
@@ -54,10 +58,13 @@ public class ProductActivity extends AppCompatActivity {
 
     ProductAdapter productAdapter;
     StringBuilder sb=null;
+    EditText qty;
+//    Button iBtn,dBtn;
+
 
      static ArrayList<String> orderProducts;
     //ProductAdapter adapter;
-    String qty ;
+   // String qty ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +75,10 @@ public class ProductActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.product_RV);
 
         fbtn = findViewById(R.id.AddBtn);
-        qtyBtn = (ElegantNumberButton) findViewById(R.id.numberButton);
+        qty = findViewById(R.id.qty);
+//        iBtn = (Button) findViewById(R.id.iBtn);
+//        dBtn = (Button) findViewById(R.id.dBtn);
+        //qtyBtn = (ElegantNumberButton) findViewById(R.id.numberButton);
 
 
         if(getIntent().hasExtra("category")){
@@ -76,7 +86,7 @@ public class ProductActivity extends AppCompatActivity {
 
         }
 
-        productQuery ="select DESCRIPTION, INVENTORY_ITEM_ID from INVENTORY_ITEM where ITEM_CATEGORY = '"+ category +"'";
+        productQuery ="select DESCRIPTION, INVENTORY_ITEM_ID from INVENTORY_ITEM where ITEM_CATEGORY = '"+ category +"' AND ORG_ID ='"+LoginActivity.org+"'";
 
         //String p;
 
@@ -122,7 +132,13 @@ public class ProductActivity extends AppCompatActivity {
 //                        }
 //                    });
 
-       // productAdapter = new ProductAdapter(this,getProducts());
+
+
+
+
+
+
+
         fbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -197,6 +213,8 @@ public class ProductActivity extends AppCompatActivity {
 //        });
 
 
+
+
     }
 
 
@@ -221,6 +239,18 @@ public class ProductActivity extends AppCompatActivity {
 //        return orderProducts;
 //    }
 
+
+//    public void decrement(View view){
+//                counter=Integer.parseInt(qty.getText().toString());
+//                counter--;
+//                qty.setText(counter);
+//    }
+//    public void increment(View view){
+//                counter=Integer.parseInt(qty.getText().toString());
+//                counter++;
+//                qty.setText(counter);
+//
+//    }
 
     public void initializeConnection(){
         try {

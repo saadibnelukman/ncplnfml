@@ -42,20 +42,48 @@
             >
         </TextView>
 
-
-            <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
-                android:id="@+id/numberButton"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginTop="4dp"
-                android:layout_marginRight="4dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:backGroundColor="#90d1bd"
-                app:textSize="8sp"
-                app:initialNumber="0"
-                >
+                android:weightSum="17"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+                <Button
+                    android:id="@+id/dBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:background="@drawable/ic_remove_circle_outline_black_24dp"
+                    android:onClick="decrement"
+                    >
 
-            </com.cepheuen.elegantnumberbutton.view.ElegantNumberButton>
+                </Button>
+                <EditText
+                    android:id="@+id/qty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@android:color/white"
+                    android:inputType="number"
+                    android:text="0"
+                    >
+
+                </EditText>
+                <Button
+                    android:id="@+id/iBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="8"
+                    android:background="@drawable/ic_add_circle_outline_black_24dp"
+                    android:onClick="increment"
+                    >
+
+                </Button>
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

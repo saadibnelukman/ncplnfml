@@ -38,6 +38,7 @@ public class CategoryActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     private String categoryQuery;
+   // String org;
     //String category;
 
     FloatingActionButton cartBtn;
@@ -49,6 +50,8 @@ public class CategoryActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         cartBtn = findViewById(R.id.btnCart);
+
+        //org = getIntent().getStringExtra("ORG_ID");
 
         categoryQuery = "select DISTINCT(ITEM_CATEGORY) from INVENTORY_ITEM";
         initializeConnection();

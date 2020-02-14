@@ -4,8 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
+import  android.text.Editable;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,10 +29,14 @@ import static com.example.ncplnfml.CategoryActivity.getList;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewViewHolder> {
     Context context;
     public static ArrayList<String> product;
+    private int counter;
+    Button iBtn,dBtn;
     //private static ClickListenerProduct clickListenerProduct;
     Model[] products;
    // ArrayList<Model> products=new ArrayList<>();
     ArrayList<Model> checkedProducts=new ArrayList<>();
+
+
 
    // List<Boolean> itemList = new ArrayList<>();
     //String checkedProduct;
@@ -65,16 +72,43 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
       holder.myCheckBox.setChecked(product.isSelected());
 
 
+//      holder.iBtn.setOnClickListener(new View.OnClickListener() {
+//           @Override
+//           public void onClick(View v) {
+//               counter=Integer.parseInt(qty.getText().toString());
+//               counter++;
+//               qty.setText(String.valueOf(counter));
+//               notifyDataSetChanged();
+//           }
+//       });
+//
+//        holder.dBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                counter=Integer.parseInt(qty.getText().toString());
+//                counter--;
+//                qty.setText(String.valueOf(counter));
+//                notifyDataSetChanged();
+//            }
+//        });
+//        Integer.parseInt(holder.qtyBtn.getNumber())
+//        final int Eqty = Integer.parseInt(qty.getText().toString());
+
+//         && Eqty != 0
+//        else {
+//            myCheckBox.setChecked(false);
+//        }
+
         holder.setItemClickListener(new MyNewViewHolder.ItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
                 CheckBox myCheckBox= (CheckBox) v;
                 Model currentProduct=products[pos];
 
-                if(myCheckBox.isChecked() && Integer.parseInt(holder.qtyBtn.getNumber()) != 0) {
+                if(myCheckBox.isChecked() && !holder.qty.getText().toString().equals("0") ) {
                     currentProduct.setSelected(true);
                     checkedProducts.add(currentProduct);
-                    addQty(position,holder.qtyBtn.getNumber());
+                    addQty(pos,holder.qty.getText().toString());
 //                    holder.qtyBtn.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
 //                        @Override
 //                        public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
@@ -86,9 +120,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
                 else if(!myCheckBox.isChecked()) {
                     currentProduct.setSelected(false);
                     checkedProducts.remove(currentProduct);
-                }else {
-                    myCheckBox.setChecked(false);
                 }
+                else {
+            myCheckBox.setChecked(false);
+        }
             }
         });
 
@@ -114,6 +149,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
         ItemClickListener itemClickListener;
         //ClickListenerProduct clickListenerProduct;
         ElegantNumberButton qtyBtn;
+        EditText qty;
+
+        Button iBtn,dBtn;
 
         public MyNewViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -123,8 +161,43 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
             myCheckBox= itemView.findViewById(R.id.checkbox);
             myCheckBox.setOnClickListener(this);
 
-            qtyBtn = itemView.findViewById(R.id.numberButton);
-            qtyBtn.setOnClickListener(this);
+            qty = itemView.findViewById(R.id.qty);
+            iBtn = itemView.findViewById(R.id.iBtn);
+            dBtn = itemView.findViewById(R.id.dBtn);
+            //qtyBtn.setOnClickListener(this);
+
+            String eText = qty.getText().toString();
+
+
+
+            iBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int counter;
+                    counter=Integer.parseInt(qty.getText().toString());
+                    counter++;
+                    qty.setText(String.valueOf(counter));
+//                    MyNewViewHolder.this.notifyAll();
+
+                }
+            });
+
+            dBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int counter;
+                    counter=Integer.parseInt(qty.getText().toString());
+                    if (counter>0){
+                        counter--;
+                    }
+                    qty.setText(String.valueOf(counter));
+//                    notifyDataSetChanged();
+//                    MyNewViewHolder.this.notifyAll();
+                }
+            });
+
+
+
         }
         public void setItemClickListener(ItemClickListener ic)
         {
@@ -140,6 +213,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
         }
 
     }
+
 
 
 
