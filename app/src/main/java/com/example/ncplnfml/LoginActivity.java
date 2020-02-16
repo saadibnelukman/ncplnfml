@@ -29,7 +29,7 @@ import fr.ganfra.materialspinner.MaterialSpinner;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String DEFAULT_DRIVER = "oracle.jdbc.driver.OracleDriver";
-    private static final String DEFAULT_URL = "jdbc:oracle:thin:@10.0.0.8:1521/orcl"; //CWPL IP
+    private static final String DEFAULT_URL = "jdbc:oracle:thin:@10.0.0.6:1521/orcl"; //CWPL IP
    // private static final String DEFAULT_URL = "jdbc:oracle:thin:@163.47.147.74:1521/cwpl.mj-group.com";   //Real IP
     private static String DEFAULT_USERNAME = "RSSALES";
     private static String DEFAULT_PASSWORD = "123";

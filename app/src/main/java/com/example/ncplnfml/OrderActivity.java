@@ -17,10 +17,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.ncplnfml.CategoryActivity.orderPID;
 import static com.example.ncplnfml.LoginActivity.createConnection;
 import static com.example.ncplnfml.LoginActivity.employeeNumber;
 import static com.example.ncplnfml.LoginActivity.orgId;
@@ -40,9 +42,16 @@ public class OrderActivity extends AppCompatActivity {
     //FloatingActionButton btnCart;
     //ElegantNumberButton numberButton;
     //private String productName = "";
-    ArrayList<String> orderProducts = new ArrayList<>();
-     ArrayList<String> qtyProducts = new ArrayList<>();
-     ArrayList<String> ordersPID = new ArrayList<>();
+        ArrayList<String> orderProducts = new ArrayList<>();
+        ArrayList<String> qtyProducts = new ArrayList<>();
+        ArrayList<String> ordersPID = new ArrayList<>();
+
+
+//     ArrayList<String> mid = new ArrayList<>();
+//     ArrayList<String> date = new ArrayList<>();
+
+     String orderPID, qtyProduct,mid;
+
 
    // OrderAdapter orderAdapter;
 
@@ -83,24 +92,75 @@ public class OrderActivity extends AppCompatActivity {
             ordersPID = getIntent().getStringArrayListExtra("pid");
         }
 
+//        for(int i=0;i<orderProducts.size();i++){
+//             orderPID = ordersPID.get(i);
+//             qtyProduct = qtyProducts.get(i);
+//        }
+
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(int i=0;i<orderProducts.size();i++) {
+
                     try {
                         //Toast.makeText(OrderActivity.this, "qqqq", Toast.LENGTH_SHORT).show();
-                        String orderPID = ordersPID.get(i);
-                        String qtyProduct = qtyProducts.get(i);
-                        String insertQuery = "INSERT INTO ORDER_DETAIL(INVENTORY_ITEM_ID,QTY,ORG_ID,ENTRY_BY,ENTRY_DATE)" + "VALUES('" + orderPID + "', " + qtyProduct + ", " + orgId + "," + employeeNumber + ",SYSDATE)";
+//                        String orderPID = ordersPID.get(i);
+//                        String qtyProduct = qtyProducts.get(i);
+                       // String insertQuery = "INSERT INTO ORDER_DETAIL(INVENTORY_ITEM_ID,QTY,ORG_ID,ENTRY_BY,ENTRY_DATE)" + "VALUES('" + orderPID + "', " + qtyProduct + ", " + orgId + "," + employeeNumber + ",SYSDATE)";
 
-                        PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+                        initializeConnection();
+
+                        String insertQueryMaster = "INSERT INTO ORDER_MASTER(ENTRY_DATE,ENTRY_BY,ORG_ID)" + "VALUES(SYSDATE, " + employeeNumber + ", " + orgId + ")";
+                        PreparedStatement preparedStatement = connection.prepareStatement(insertQueryMaster);
                         preparedStatement.executeQuery();
+
+
+
+
+
+
                         Toast.makeText(OrderActivity.this, "Done", Toast.LENGTH_SHORT).show();
 
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
 
+
+                try {
+                    String fetchQuery = "SELECT MAX(M_ID) FROM ORDER_MASTER WHERE ENTRY_BY = '"+employeeNumber+"'";
+                    PreparedStatement preparedStatementFetch = connection.prepareStatement(fetchQuery);
+                    ResultSet resultSetFetch = preparedStatementFetch.executeQuery();
+
+                    while (resultSetFetch.next()) {
+                            mid = (resultSetFetch.getString(1));
+                            //date.add(resultSetFetch.getString(2));
+                    }
+
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                for(int i = 0; i<ordersPID.size() ; i++){
+                    try {
+                        orderPID = ordersPID.get(i);
+                        qtyProduct = qtyProducts.get(i);
+                       // String mID = mid.get(i);
+                       // String dateIN = date.get(i);
+                        String insertQuery = "INSERT INTO ORDER_DETAIL(M_ID,INVENTORY_ITEM_ID,QTY,ORG_ID,ENTRY_BY,ENTRY_DATE)" + "VALUES('" + mid + "','" + orderPID + "', '"+qtyProduct+"','"+LoginActivity.org+"','"+employeeNumber+"',SYSDATE)";
+                        PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+                        preparedStatement.executeQuery();
+
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
 
 
