@@ -22,6 +22,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.ncplnfml.CategoryActivity.getOrderPID;
+import static com.example.ncplnfml.CategoryActivity.getQtyProducts;
 import static com.example.ncplnfml.CategoryActivity.orderPID;
 import static com.example.ncplnfml.LoginActivity.createConnection;
 import static com.example.ncplnfml.LoginActivity.employeeNumber;
@@ -82,9 +84,9 @@ public class OrderActivity extends AppCompatActivity {
         if(getIntent().hasExtra("qty")){
 
             qtyProducts = getIntent().getStringArrayListExtra("qty");
-            OrderAdapter orderAdapter = new OrderAdapter(this,qtyProducts);
+           OrderAdapter orderAdapter = new OrderAdapter(this,qtyProducts);
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            recyclerView.setAdapter(orderAdapter);
+           recyclerView.setAdapter(orderAdapter);
         }
 
         if(getIntent().hasExtra("pid")){
@@ -101,67 +103,10 @@ public class OrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                    try {
-                        //Toast.makeText(OrderActivity.this, "qqqq", Toast.LENGTH_SHORT).show();
-//                        String orderPID = ordersPID.get(i);
-//                        String qtyProduct = qtyProducts.get(i);
-                       // String insertQuery = "INSERT INTO ORDER_DETAIL(INVENTORY_ITEM_ID,QTY,ORG_ID,ENTRY_BY,ENTRY_DATE)" + "VALUES('" + orderPID + "', " + qtyProduct + ", " + orgId + "," + employeeNumber + ",SYSDATE)";
+                    insertMaster();
+                    fetchMaster();
+                    insertDetail();
 
-                        initializeConnection();
-
-                        String insertQueryMaster = "INSERT INTO ORDER_MASTER(ENTRY_DATE,ENTRY_BY,ORG_ID)" + "VALUES(SYSDATE, " + employeeNumber + ", " + orgId + ")";
-                        PreparedStatement preparedStatement = connection.prepareStatement(insertQueryMaster);
-                        preparedStatement.executeQuery();
-
-
-
-
-
-
-                        Toast.makeText(OrderActivity.this, "Done", Toast.LENGTH_SHORT).show();
-
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-
-
-                try {
-                    String fetchQuery = "SELECT MAX(M_ID) FROM ORDER_MASTER WHERE ENTRY_BY = '"+employeeNumber+"'";
-                    PreparedStatement preparedStatementFetch = connection.prepareStatement(fetchQuery);
-                    ResultSet resultSetFetch = preparedStatementFetch.executeQuery();
-
-                    while (resultSetFetch.next()) {
-                            mid = (resultSetFetch.getString(1));
-                            //date.add(resultSetFetch.getString(2));
-                    }
-
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                for(int i = 0; i<ordersPID.size() ; i++){
-                    try {
-                        orderPID = ordersPID.get(i);
-                        qtyProduct = qtyProducts.get(i);
-                       // String mID = mid.get(i);
-                       // String dateIN = date.get(i);
-                        String insertQuery = "INSERT INTO ORDER_DETAIL(M_ID,INVENTORY_ITEM_ID,QTY,ORG_ID,ENTRY_BY,ENTRY_DATE)" + "VALUES('" + mid + "','" + orderPID + "', '"+qtyProduct+"','"+LoginActivity.org+"','"+employeeNumber+"',SYSDATE)";
-                        PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
-                        preparedStatement.executeQuery();
-
-
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-
-
-                }
-
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
 
 
             }
@@ -177,6 +122,78 @@ public class OrderActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public void insertMaster(){
+        try {
+            //Toast.makeText(OrderActivity.this, "qqqq", Toast.LENGTH_SHORT).show();
+//                        String orderPID = ordersPID.get(i);
+//                        String qtyProduct = qtyProducts.get(i);
+            // String insertQuery = "INSERT INTO ORDER_DETAIL(INVENTORY_ITEM_ID,QTY,ORG_ID,ENTRY_BY,ENTRY_DATE)" + "VALUES('" + orderPID + "', " + qtyProduct + ", " + orgId + "," + employeeNumber + ",SYSDATE)";
+
+            initializeConnection();
+
+            String insertQueryMaster = "INSERT INTO ORDER_MASTER(ENTRY_DATE,ENTRY_BY,ORG_ID)" + "VALUES(SYSDATE, " + employeeNumber + ", " + orgId + ")";
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQueryMaster);
+            preparedStatement.executeQuery();
+
+
+
+
+
+
+            Toast.makeText(OrderActivity.this, "Done", Toast.LENGTH_SHORT).show();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void fetchMaster(){
+
+        try {
+            String fetchQuery = "SELECT MAX(M_ID) FROM ORDER_MASTER WHERE ENTRY_BY = '"+employeeNumber+"'";
+            PreparedStatement preparedStatementFetch = connection.prepareStatement(fetchQuery);
+            ResultSet resultSetFetch = preparedStatementFetch.executeQuery();
+
+            while (resultSetFetch.next()) {
+                mid = (resultSetFetch.getString(1));
+                //date.add(resultSetFetch.getString(2));
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void insertDetail(){
+
+        ordersPID = getOrderPID();
+        qtyProducts = getQtyProducts();
+
+        for(int i = 0; i<ordersPID.size() ; i++){
+            try {
+
+                orderPID = ordersPID.get(i);
+                qtyProduct = qtyProducts.get(i);
+
+                String insertQuery = "INSERT INTO ORDER_DETAIL(M_ID,INVENTORY_ITEM_ID,QTY,ORG_ID,ENTRY_BY,ENTRY_DATE)" + "VALUES('" + mid + "','" + orderPID + "', '"+qtyProduct+"','"+LoginActivity.org+"','"+employeeNumber+"',SYSDATE)";
+                PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+                preparedStatement.executeQuery();
+
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void initializeConnection(){

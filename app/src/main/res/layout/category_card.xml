@@ -6,22 +6,23 @@
     android:layout_height="wrap_content"
     >
     <androidx.cardview.widget.CardView
-        android:layout_width="150dp"
-        android:layout_height="80dp"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="15dp"
         app:cardElevation="8dp"
         app:cardCornerRadius="8dp"
-        android:backgroundTint="@color/colorApp">
+        android:backgroundTint="#7C4DFF">
 
         <TextView
             android:id="@+id/categoryTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginTop="5dp"
             android:text="Category"
-            android:textColor="@color/white"
+            android:textColor="#fff"
             android:textAlignment="center"
+            android:singleLine="true"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             >
         </TextView>

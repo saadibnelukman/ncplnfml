@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,8 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import static com.example.ncplnfml.CategoryActivity.getOrderPID;
 import static com.example.ncplnfml.CategoryActivity.getOrderProduct;
 import static com.example.ncplnfml.CategoryActivity.getQtyProducts;
+import static com.example.ncplnfml.CategoryActivity.removeOrderProducts;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder> {
 
@@ -33,10 +36,29 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull OrderAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull OrderAdapter.MyViewHolder holder, final int position) {
+
+
 
         holder.productName.setText(getOrderProduct().get(position));
         holder.qty.setText(getQtyProducts().get(position));
+
+        holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String item = getOrderProduct().get(position);
+                String pid = getOrderPID().get(position);
+                String qt = getQtyProducts().get(position);
+                removeOrderProducts(item,pid,qt);
+
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position,getOrderProduct().size());
+                notifyItemRangeChanged(position,getOrderPID().size());
+
+                Toast.makeText(context,"Removed : " + item,Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
     }
 
@@ -48,11 +70,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView productName,qty;
+        Button deleteBtn;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             productName = itemView.findViewById(R.id.product_name);
             qty = itemView.findViewById(R.id.qty);
+            deleteBtn = itemView.findViewById(R.id.deleteBtn);
         }
     }
 }

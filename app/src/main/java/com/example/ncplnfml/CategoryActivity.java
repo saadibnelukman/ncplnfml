@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -21,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.ncplnfml.LoginActivity.createConnection;
+import static com.example.ncplnfml.LoginActivity.employeeName;
+import static com.example.ncplnfml.LoginActivity.employeeNumber;
 
 public class CategoryActivity extends AppCompatActivity {
 
@@ -41,7 +46,7 @@ public class CategoryActivity extends AppCompatActivity {
    // String org;
     //String category;
 
-    FloatingActionButton cartBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +54,14 @@ public class CategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category);
 
         recyclerView = findViewById(R.id.recyclerView);
-        cartBtn = findViewById(R.id.btnCart);
+
 
         //org = getIntent().getStringExtra("ORG_ID");
+
+
+
+        getSupportActionBar().setTitle("" +employeeName+ "");
+
 
         categoryQuery = "select DISTINCT(ITEM_CATEGORY) from INVENTORY_ITEM";
         initializeConnection();
@@ -74,7 +84,7 @@ public class CategoryActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(catergoryAdaptor);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         catergoryAdaptor.setOnItemClickListener(new CatergoryAdaptor.ClickListener() {
@@ -96,16 +106,46 @@ public class CategoryActivity extends AppCompatActivity {
 
 
 
-        cartBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CategoryActivity.this,OrderActivity.class);
-                intent.putExtra("product",orderProducts);
-                intent.putExtra("qty",qtyProducts);
-                intent.putExtra("pid",orderPID);
-                startActivity(intent);
-            }
-        });
+
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_layout,menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.logout){
+
+            logout();
+
+            return  true;
+        } if(item.getItemId() == R.id.cart){
+            Intent intent = new Intent(CategoryActivity.this,OrderActivity.class);
+            intent.putExtra("product",orderProducts);
+            intent.putExtra("qty",qtyProducts);
+            intent.putExtra("pid",orderPID);
+            startActivity(intent);
+
+        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+
+
+        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+        startActivity(intent);
+        finish();
 
     }
 
@@ -117,6 +157,13 @@ public class CategoryActivity extends AppCompatActivity {
         orderProducts.add(s);
         orderPID.add(p);
     }
+
+    public static void deleteFromArray (String s,String p,String q){
+
+        orderProducts.remove(s);
+        orderPID.remove(p);
+        qtyProducts.remove(q);
+    }
     public static void addQty(int position, String q){
         qtyProducts.add(q);
         Log.d("Array", q+"--"+position);
@@ -124,6 +171,12 @@ public class CategoryActivity extends AppCompatActivity {
     }
     public static ArrayList<String> getOrderProduct(){
         return orderProducts;
+    }
+    public static void removeOrderProducts(String s,String p,String q){
+
+        orderProducts.remove(s);
+        orderPID.remove(p);
+        qtyProducts.remove(q);
     }
     public static ArrayList<String>getQtyProducts(){
         return qtyProducts;

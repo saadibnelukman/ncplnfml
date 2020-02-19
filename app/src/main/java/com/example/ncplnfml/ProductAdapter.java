@@ -20,7 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.ncplnfml.CategoryActivity.addQty;
+import static com.example.ncplnfml.CategoryActivity.addToArray;
+import static com.example.ncplnfml.CategoryActivity.deleteFromArray;
 import static com.example.ncplnfml.CategoryActivity.getList;
+//import static com.example.ncplnfml.ProductActivity.addModel;
 //import static com.example.ncplnfml.ProductActivity.getProduct;
 //import static com.example.ncplnfml.ProductActivity.getProducts;
 
@@ -57,10 +60,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
         MyNewViewHolder holder=new MyNewViewHolder(v);
         return holder;
 
-//        LayoutInflater layoutInflater = LayoutInflater.from(context);
-//        View view = layoutInflater.inflate(R.layout.product_card,parent,false);
-//
-//        return new MyNewViewHolder(view);
+
 
     }
 
@@ -108,6 +108,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
                 if(myCheckBox.isChecked() && !holder.qty.getText().toString().equals("0") ) {
                     currentProduct.setSelected(true);
                     checkedProducts.add(currentProduct);
+//                    addModel();
+
+//                    Model product=checkedProducts.get(pos);
+                    addToArray(product.getProduct(),product.getPID());
                     addQty(pos,holder.qty.getText().toString());
 //                    holder.qtyBtn.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
 //                        @Override
@@ -116,10 +120,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
 //                        }
 //                    });
 
+
+
+
                 }
                 else if(!myCheckBox.isChecked()) {
                     currentProduct.setSelected(false);
                     checkedProducts.remove(currentProduct);
+                    deleteFromArray(product.getProduct(),product.getPID(),holder.qty.getText().toString());
                 }
                 else {
             myCheckBox.setChecked(false);

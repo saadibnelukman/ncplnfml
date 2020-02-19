@@ -38,7 +38,7 @@ public class ProductActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     FloatingActionButton fbtn;
-    ElegantNumberButton qtyBtn;
+    //ElegantNumberButton qtyBtn;
     ListView listView;
 
     private String productQuery;
@@ -46,7 +46,7 @@ public class ProductActivity extends AppCompatActivity {
 
     private int counter;
 
-
+    public static Button ibtn,dbtn;
 
     CheckBox checkBox;
 
@@ -56,9 +56,9 @@ public class ProductActivity extends AppCompatActivity {
     private static Model[] model;
     //public static Model[] model;
 
-    ProductAdapter productAdapter;
+    static ProductAdapter productAdapter;
     StringBuilder sb=null;
-    EditText qty;
+    public static EditText qty;
 //    Button iBtn,dBtn;
 
 
@@ -74,11 +74,11 @@ public class ProductActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.product_RV);
 
-        fbtn = findViewById(R.id.AddBtn);
+
+        ibtn = (Button) findViewById(R.id.iBtn);
+        dbtn = findViewById(R.id.dBtn);
+
         qty = findViewById(R.id.qty);
-//        iBtn = (Button) findViewById(R.id.iBtn);
-//        dBtn = (Button) findViewById(R.id.dBtn);
-        //qtyBtn = (ElegantNumberButton) findViewById(R.id.numberButton);
 
 
         if(getIntent().hasExtra("category")){
@@ -88,7 +88,7 @@ public class ProductActivity extends AppCompatActivity {
 
         productQuery ="select DESCRIPTION, INVENTORY_ITEM_ID from INVENTORY_ITEM where ITEM_CATEGORY = '"+ category +"' AND ORG_ID ='"+LoginActivity.org+"'";
 
-        //String p;
+
 
         initializeConnection();
         product.clear();
@@ -101,7 +101,7 @@ public class ProductActivity extends AppCompatActivity {
                 product.add(resultSetProduct.getString(1));
                 pid.add(resultSetProduct.getString(2));
 
-                //Model[] model = new Model(resultSetProduct.getString(i));
+
 
             }
             model = new Model[product.size()];
@@ -117,80 +117,36 @@ public class ProductActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-//        qtyBtn.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
+
+
+//        fbtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
-//            public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
-//                 = qtyBtn.getNumber();
+//            public void onClick(View view) {
+//
+//                int i=0;
+//                do {
+//                    Model product=productAdapter.checkedProducts.get(i);
+//                    addToArray(product.getProduct(),product.getPID());
+//                    i++;
+//
+//                }while (i < productAdapter.checkedProducts.size());
+//
+//
+//                if(productAdapter.checkedProducts.size()>0)
+//                {
+//                    Toast.makeText(ProductActivity.this,"Items Added"+"",Toast.LENGTH_LONG).show();
+//                }else
+//                {
+//                    Toast.makeText(ProductActivity.this,"Please Check An Item First", Toast.LENGTH_SHORT).show();
+//                }
 //
 //            }
 //        });
 
-//        qtyBtn.setOnClickListener(qtynew ElegantNumberButton.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                             qty = qtyBtn.getNumber();
-//                        }
-//                    });
 
 
 
 
-
-
-
-
-        fbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sb=new StringBuilder();
-
-//                orderProducts = new ArrayList<>();
-
-                int i=0;
-                do {
-                    Model product=productAdapter.checkedProducts.get(i);
-
-//                    orderProducts.add(product.getProduct());
-
-
-//                    qtyBtn.setOnClickListener(new ElegantNumberButton.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                             qty = qtyBtn.getNumber();
-//                        }
-//                    });
-
-                    addToArray(product.getProduct(),product.getPID());
-
-                    sb.append(product.getProduct());
-
-
-                    if(i != productAdapter.checkedProducts.size()-1){
-                        sb.append("n");
-                    }
-                    i++;
-
-                }while (i < productAdapter.checkedProducts.size());
-
-
-//                Intent intent = new Intent(ProductActivity.this,OrderActivity.class);
-////                intent.putExtra("product",orderProducts);
-//                intent.putExtra("product",orderProducts);
-//                startActivity(intent);
-
-                if(productAdapter.checkedProducts.size()>0)
-                {
-                    Toast.makeText(ProductActivity.this,"Items Added"+"",Toast.LENGTH_LONG).show();
-                }else
-                {
-                    Toast.makeText(ProductActivity.this,"Please Check An Item First", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-
-
-        //Model[] products = product.toArray();
 
         productAdapter = new ProductAdapter(this,model);
         recyclerView.setAdapter(productAdapter);
@@ -199,58 +155,33 @@ public class ProductActivity extends AppCompatActivity {
 //        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,1);
 //        recyclerView.setLayoutManager(gridLayoutManager);
 
-
-
-//        productAdapter.setOnItemClickListenerProduct(new ProductAdapter.ClickListenerProduct() {
-//            @Override
-//            public void onItemClick(int position, View v) {
-//
-//
-//                Intent intent = new Intent(ProductActivity.this,OrderActivity.class);
-//                intent.putExtra("product",product.get(position));
-//                startActivity(intent);
-//            }
-//        });
-
-
-
-
     }
 
-
-
-
-
-
-
-//    public Model[] getProduct(){
-//        for(int i=0 ;i< model.length;i++) {
-//
-//                    model[i].setProduct(product.get(i));
-//                    //Model[] model = new Model(resultSetProduct.getString(i));
-//
-//                    Toast.makeText(this,"do", Toast.LENGTH_SHORT).show();
-//                         }
-//
-//        return model;
+//    public static void setOff(){
+//        ibtn.setEnabled(false);
+//        dbtn.setEnabled(false);
+//        qty.setEnabled(false);
 //    }
 
-//    public static ArrayList<String> getOrderProduct(){
-//        return orderProducts;
-//    }
-
-
-//    public void decrement(View view){
-//                counter=Integer.parseInt(qty.getText().toString());
-//                counter--;
-//                qty.setText(counter);
-//    }
-//    public void increment(View view){
-//                counter=Integer.parseInt(qty.getText().toString());
-//                counter++;
-//                qty.setText(counter);
+//    public static void  addModel(){
+//        int i=0;
+//        do {
+//            Model product=productAdapter.checkedProducts.get(i);
+//            addToArray(product.getProduct(),product.getPID());
+//            i++;
 //
+//        }while (i < productAdapter.checkedProducts.size());
+
+
+//        if(productAdapter.checkedProducts.size()>0)
+//        {
+//            Toast.makeText(ProductActivity.this,"Items Added"+"",Toast.LENGTH_LONG).show();
+//        }else
+//        {
+//            Toast.makeText(ProductActivity.this,"Please Check An Item First", Toast.LENGTH_SHORT).show();
+//        }
 //    }
+
 
     public void initializeConnection(){
         try {
