@@ -26,6 +26,7 @@ import static com.example.ncplnfml.CategoryActivity.getOrderPID;
 import static com.example.ncplnfml.CategoryActivity.getQtyProducts;
 import static com.example.ncplnfml.CategoryActivity.orderPID;
 import static com.example.ncplnfml.LoginActivity.createConnection;
+import static com.example.ncplnfml.LoginActivity.employeeName;
 import static com.example.ncplnfml.LoginActivity.employeeNumber;
 import static com.example.ncplnfml.LoginActivity.orgId;
 
@@ -72,6 +73,8 @@ public class OrderActivity extends AppCompatActivity {
         //unit_price = (TextView) findViewById(R.id.unit_price);
         //btnCart = findViewById(R.id.btnCart);
         //numberButton = findViewById(R.id.numberButton);
+
+        getSupportActionBar().setTitle("" +employeeName+ "");
 
         if(getIntent().hasExtra("product")){
             orderProducts = getIntent().getStringArrayListExtra("product");

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".HistoryActivity">
+
+
+
+
+    <fr.ganfra.materialspinner.MaterialSpinner
+        android:id="@+id/midSpinner"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:ms_arrowColor="@color/colorApp"
+        app:ms_arrowSize="16dp"
+        app:ms_hint="Choose Order No."
+        app:ms_hintColor="@color/black"
+        android:autofillHints="Please Choose"
+        app:ms_multiline="true"
+
+
+
+        >
+
+    </fr.ganfra.materialspinner.MaterialSpinner>
+
+
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:id="@+id/scrollView">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/history_RV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical"
+
+            >
+
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

@@ -29,7 +29,7 @@ import fr.ganfra.materialspinner.MaterialSpinner;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String DEFAULT_DRIVER = "oracle.jdbc.driver.OracleDriver";
-    private static final String DEFAULT_URL = "jdbc:oracle:thin:@10.0.0.4:1521/orcl"; //CWPL IP
+    private static final String DEFAULT_URL = "jdbc:oracle:thin:@192.168.0.121:1521/orcl"; //CWPL IP
    // private static final String DEFAULT_URL = "jdbc:oracle:thin:@163.47.147.74:1521/cwpl.mj-group.com";   //Real IP
     private static String DEFAULT_USERNAME = "RSSALES";
     private static String DEFAULT_PASSWORD = "123";
@@ -56,6 +56,8 @@ public class LoginActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     public static String org;
 
+    String orgName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,13 +83,13 @@ public class LoginActivity extends AppCompatActivity {
             while (resultSet.next()) {
                 orgId = resultSet.getString(1);
 
-//                if(orgId.equals("547")){
-//                    org = "Northern Flour Mills Limited";
-//                }
-//                if(orgId.equals("549")){
-//                    org = "Northern Consumer Products Limited";
-//                }
-                listItems.add(orgId);
+                if(orgId.equals("547")){
+                    orgName = "Northern Flour Mills Limited";
+                }
+                if(orgId.equals("549")){
+                    orgName = "Northern Consumer Products Limited";
+                }
+                listItems.add(orgName);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -104,7 +106,13 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(position != -1){
 
-                    org = spinner.getItemAtPosition(position).toString();
+                    //org = spinner.getItemAtPosition(position).toString();
+
+                    if (spinner.getItemAtPosition(position).toString().equals("Northern Flour Mills Limited")){
+                        org = "547";
+                    }else if(spinner.getItemAtPosition(position).toString().equals("Northern Consumer Products Limited")){
+                        org = "549";
+                    }
 
                 }
             }
@@ -131,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                     if (connectivity) {
 
                         query = "select EMPLOYEE_NUMBER, EMPLOYEE_NAME from USERS where USERNAME = '"
-                                + userName.getText().toString() + "' AND PASSWORD = '" + password.getText().toString() + "' AND ORG_ID = '" +spinner.getSelectedItem().toString()+ "'";
+                                + userName.getText().toString() + "' AND PASSWORD = '" + password.getText().toString() + "' AND ORG_ID = '" +org+ "'";
 
                         try {
                             PreparedStatement preparedStatement = connection.prepareStatement(query);

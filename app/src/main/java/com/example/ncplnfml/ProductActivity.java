@@ -30,6 +30,7 @@ import java.util.List;
 
 import static com.example.ncplnfml.CategoryActivity.addToArray;
 import static com.example.ncplnfml.LoginActivity.createConnection;
+import static com.example.ncplnfml.LoginActivity.orgId;
 
 public class ProductActivity extends AppCompatActivity {
 
@@ -86,7 +87,7 @@ public class ProductActivity extends AppCompatActivity {
 
         }
 
-        productQuery ="select DESCRIPTION, INVENTORY_ITEM_ID from INVENTORY_ITEM where ITEM_CATEGORY = '"+ category +"' AND ORG_ID ='"+LoginActivity.org+"'";
+        productQuery ="select DESCRIPTION, INVENTORY_ITEM_ID from INVENTORY_ITEM where ITEM_CATEGORY = '"+ category +"' AND ORG_ID ='"+orgId+"'";
 
 
 

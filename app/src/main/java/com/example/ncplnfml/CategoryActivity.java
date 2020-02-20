@@ -134,6 +134,10 @@ public class CategoryActivity extends AppCompatActivity {
             intent.putExtra("pid",orderPID);
             startActivity(intent);
 
+        } if(item.getItemId() == R.id.history){
+
+            Intent intent = new Intent(CategoryActivity.this,HistoryActivity.class);
+            startActivity(intent);
         }
 
 
