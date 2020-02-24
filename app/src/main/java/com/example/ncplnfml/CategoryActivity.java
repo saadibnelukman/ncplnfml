@@ -63,7 +63,7 @@ public class CategoryActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("" +employeeName+ "");
 
 
-        categoryQuery = "select DISTINCT(ITEM_CATEGORY) from INVENTORY_ITEM";
+        categoryQuery = "select DISTINCT(ITEM_CATEGORY) from INVENTORY_ITEM where ORG_ID = '" +LoginActivity.org+ "'";
         initializeConnection();
         category.clear();
         try {

@@ -22,7 +22,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
     Context context;
     ArrayList<String> orderProducts = new ArrayList<>();
-    public OrderAdapter(Context context, ArrayList<String> orderProducts) {
+    public OrderAdapter(Context context) {
         this.context = context;
 //        this.orderProducts = orderProducts;
     }
@@ -42,6 +42,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
         holder.productName.setText(getOrderProduct().get(position));
         holder.qty.setText(getQtyProducts().get(position));
+
+
 
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +72,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView productName,qty;
-        Button deleteBtn;
+        Button deleteBtn,submitBtn;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,6 +80,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             productName = itemView.findViewById(R.id.product_name);
             qty = itemView.findViewById(R.id.qty);
             deleteBtn = itemView.findViewById(R.id.deleteBtn);
+            submitBtn = itemView.findViewById(R.id.submitBtn);
         }
     }
 }

@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context=".HistoryActivity">
+    tools:context=".HistoryActivity"
+    android:layout_margin="8dp">
 
 
 
 
     <fr.ganfra.materialspinner.MaterialSpinner
         android:id="@+id/midSpinner"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         app:ms_arrowColor="@color/colorApp"
@@ -27,6 +28,38 @@
         >
 
     </fr.ganfra.materialspinner.MaterialSpinner>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="5"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="@string/product"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            >
+
+        </TextView>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/qty"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp">
+
+        </TextView>
+
+
+    </LinearLayout>
 
 
 
@@ -43,6 +76,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical"
+            android:scrollIndicators="right"
+
 
             >
 

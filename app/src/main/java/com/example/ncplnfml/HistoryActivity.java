@@ -69,10 +69,15 @@ public class HistoryActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("" +employeeName+ "");
 
 
+
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position != -1){
+
+                    qty.clear();
+                    desc.clear();
 
                     mID = spinner.getItemAtPosition(position).toString();
                     historyQuery ="select QTY,DESCRIPTION from ORDER_DETAIL OD,INVENTORY_ITEM II where M_ID = '"+mID+"' AND OD.ENTRY_BY = '"+employeeNumber+"' AND OD.INVENTORY_ITEM_ID = II.INVENTORY_ITEM_ID";
@@ -97,12 +102,12 @@ public class HistoryActivity extends AppCompatActivity {
                     GridLayoutManager gridLayoutManager = new GridLayoutManager(HistoryActivity.this,1);
                     recyclerView.setLayoutManager(gridLayoutManager);
 
-
-
-
-
+                }else{
+                    qty.clear();
+                    desc.clear();
                 }
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -127,6 +132,13 @@ public class HistoryActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public void onBackPressed(){
+
+        qty.clear();
+        desc.clear();
+        finish();
     }
 
     public void getMID(){

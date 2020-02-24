@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.ncplnfml.CategoryActivity.getOrderPID;
+import static com.example.ncplnfml.CategoryActivity.getOrderProduct;
 import static com.example.ncplnfml.CategoryActivity.getQtyProducts;
 import static com.example.ncplnfml.CategoryActivity.orderPID;
 import static com.example.ncplnfml.LoginActivity.createConnection;
@@ -79,17 +81,11 @@ public class OrderActivity extends AppCompatActivity {
         if(getIntent().hasExtra("product")){
             orderProducts = getIntent().getStringArrayListExtra("product");
 
-        OrderAdapter orderAdapter = new OrderAdapter(this,orderProducts);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(orderAdapter);
         }
         if(getIntent().hasExtra("qty")){
 
             qtyProducts = getIntent().getStringArrayListExtra("qty");
-           OrderAdapter orderAdapter = new OrderAdapter(this,qtyProducts);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-           recyclerView.setAdapter(orderAdapter);
+
         }
 
         if(getIntent().hasExtra("pid")){
@@ -110,12 +106,19 @@ public class OrderActivity extends AppCompatActivity {
                     fetchMaster();
                     insertDetail();
 
+                    getQtyProducts().clear();
+                getOrderProduct().clear();
+
+                Intent intent = new Intent(OrderActivity.this,CategoryActivity.class);
+                startActivity(intent);
 
 
             }
         });
 
-
+        OrderAdapter orderAdapter = new OrderAdapter(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(orderAdapter);
 
 
 
@@ -136,7 +139,7 @@ public class OrderActivity extends AppCompatActivity {
 
             initializeConnection();
 
-            String insertQueryMaster = "INSERT INTO ORDER_MASTER(ENTRY_DATE,ENTRY_BY,ORG_ID)" + "VALUES(SYSDATE, " + employeeNumber + ", " + orgId + ")";
+            String insertQueryMaster = "INSERT INTO ORDER_MASTER(ENTRY_DATE,ENTRY_BY,ORG_ID)" + "VALUES(SYSDATE, " + employeeNumber + ", " + LoginActivity.org + ")";
             PreparedStatement preparedStatement = connection.prepareStatement(insertQueryMaster);
             preparedStatement.executeQuery();
 
