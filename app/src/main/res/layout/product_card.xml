@@ -1,105 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<LinearLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:gravity="center">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="5dp"
-
-        >
+        android:layout_margin="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:weightSum="10">
+            android:weightSum="12.5"
+            android:gravity="center">
 
-        <CheckBox
-            android:id="@+id/checkbox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:theme="@style/Check"
-            app:buttonTint="@color/colorPrimary"
-            android:buttonTint="#D1D1D1"
-            android:layout_weight="6"
-
-           >
-
-        </CheckBox>
-
-        <TextView
-            android:id="@+id/productTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Product"
-            android:layout_weight="3"
-            android:textColor="@color/black"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            >
-        </TextView>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <CheckBox
+                android:id="@+id/checkbox"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:theme="@style/Check"
+                app:buttonTint="@color/colorPrimary"
+                android:buttonTint="#D1D1D1"
                 android:layout_weight="1"
-                android:weightSum="10"
-                android:orientation="horizontal"
+                android:clickable="false"
+                android:layout_marginRight="3dp"/>
+
+            <TextView
+                android:id="@+id/productTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Product"
+                android:layout_marginRight="5dp"
+                android:layout_weight="7"
+                android:textColor="@color/black"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"/>
+
+            <Button
+                android:id="@+id/dBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:text="-"
+                android:textColor="@color/white"
                 android:background="@color/colorPrimary"
-                >
-                <Button
-                    android:id="@+id/dBtn"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text=" - "
-                    android:textColor="@color/white"
-                    android:background="@color/colorPrimary"
-                    android:textSize="40sp"
-                    android:onClick="decrement"
+                android:textSize="40sp"
+                android:onClick="decrement"/>
 
-                    >
+            <EditText
+                android:id="@+id/qty"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:textColor="@android:color/white"
+                android:inputType="number"
+                android:text="0"
+                android:background="@color/colorPrimary"
+                android:textSize="40sp"
+                android:textAlignment="center"/>
 
-                </Button>
-                <EditText
-                    android:id="@+id/qty"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:textColor="@android:color/white"
-                    android:inputType="number"
-                    android:text="0"
-                    android:textSize="30sp"
-                    android:textAlignment="center"
-                    >
-
-                </EditText>
-                <Button
-                    android:id="@+id/iBtn"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text=" + "
-                    android:textColor="@color/white"
-                    android:background="@color/colorPrimary"
-                    android:textSize="40sp"
-                    android:onClick="increment"
-                    >
-
-                </Button>
-
-            </LinearLayout>
-
+            <Button
+                android:id="@+id/iBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:text="+"
+                android:textColor="@color/white"
+                android:background="@color/colorPrimary"
+                android:textSize="40sp"
+                android:onClick="increment"/>
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-</RelativeLayout>
+</LinearLayout>
 
 
 

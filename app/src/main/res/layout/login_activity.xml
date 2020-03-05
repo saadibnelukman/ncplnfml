@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
 
     >
 
@@ -39,7 +40,6 @@
                 app:ms_arrowSize="16dp"
                 app:ms_hint="Choose Your Organization"
                 app:ms_hintColor="@color/black"
-                android:autofillHints="Please Choose"
                 app:ms_multiline="true"
 
 
@@ -47,37 +47,59 @@
 
             </fr.ganfra.materialspinner.MaterialSpinner>
 
-            <EditText
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/username"
                 android:layout_width="300dp"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
-                android:hint="User Name"
-                android:inputType="text"
-                android:textColorHint="@color/black"
-                android:background="@drawable/input_field"
-                android:imeOptions="actionNext"
-                >
+                app:errorEnabled="true"
+                app:counterEnabled="true"
+                app:counterMaxLength="10">
 
-            </EditText>
-            <EditText
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:hint="@string/user_name"
+                    android:defaultFocusHighlightEnabled="false"
+                    android:inputType="text"
+                    android:textColorHint="@color/black"
+                    android:imeOptions="actionNext">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/password"
                 android:layout_width="300dp"
-                android:layout_height="50sp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginBottom="40dp"
                 android:layout_gravity="center"
-                android:textColorHint="@color/black"
-                android:background="@drawable/input_field"
-                android:hint="Password"
-                android:inputType="numberPassword"
-                android:imeOptions="actionNext"
-
-
+                app:errorEnabled="true"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/colorPrimaryDark"
                 >
 
-            </EditText>
+                <com.google.android.material.textfield.TextInputEditText
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:hint="@string/password"
+                    android:textColorHint="@color/black"
+                    android:inputType="numberPassword"
+                    android:imeOptions="actionNext">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
 
         </LinearLayout>
 

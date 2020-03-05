@@ -1,6 +1,7 @@
 package com.example.ncplnfml;
 
 import android.content.Context;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +20,13 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.ncplnfml.CategoryActivity.addQty;
+
 import static com.example.ncplnfml.CategoryActivity.addToArray;
 import static com.example.ncplnfml.CategoryActivity.deleteFromArray;
+import static com.example.ncplnfml.CategoryActivity.findPosition;
 import static com.example.ncplnfml.CategoryActivity.getList;
+import static com.example.ncplnfml.CategoryActivity.getQtyProducts;
+import static com.example.ncplnfml.CategoryActivity.updateArray;
 //import static com.example.ncplnfml.ProductActivity.addModel;
 //import static com.example.ncplnfml.ProductActivity.getProduct;
 //import static com.example.ncplnfml.ProductActivity.getProducts;
@@ -68,76 +72,85 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
     public void onBindViewHolder(@NonNull final MyNewViewHolder holder, final int position) {
          final Model product=products[position];
         holder.productTextView.setText(product.getProduct());
-        //holder.productTextView.setText(getProduct().get(position));
-      holder.myCheckBox.setChecked(product.isSelected());
 
-
-//      holder.iBtn.setOnClickListener(new View.OnClickListener() {
-//           @Override
-//           public void onClick(View v) {
-//               counter=Integer.parseInt(qty.getText().toString());
-//               counter++;
-//               qty.setText(String.valueOf(counter));
-//               notifyDataSetChanged();
-//           }
-//       });
-//
-//        holder.dBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                counter=Integer.parseInt(qty.getText().toString());
-//                counter--;
-//                qty.setText(String.valueOf(counter));
-//                notifyDataSetChanged();
-//            }
-//        });
-//        Integer.parseInt(holder.qtyBtn.getNumber())
-//        final int Eqty = Integer.parseInt(qty.getText().toString());
-
-//         && Eqty != 0
-//        else {
-//            myCheckBox.setChecked(false);
-//        }
-
-        holder.setItemClickListener(new MyNewViewHolder.ItemClickListener() {
-            @Override
-            public void onItemClick(View v, int pos) {
-                CheckBox myCheckBox= (CheckBox) v;
-                Model currentProduct=products[pos];
-
-                if(myCheckBox.isChecked() && !holder.qty.getText().toString().equals("0") ) {
-                    currentProduct.setSelected(true);
-                    checkedProducts.add(currentProduct);
-//                    addModel();
-
-//                    Model product=checkedProducts.get(pos);
-                    addToArray(product.getProduct(),product.getPID());
-                    addQty(pos,holder.qty.getText().toString());
-//                    holder.qtyBtn.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
-//                        @Override
-//                        public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
-//                            addQty(position,newValue+"");
-//                        }
-//                    });
-
-
-
-
-                }
-                else if(!myCheckBox.isChecked()) {
-                    currentProduct.setSelected(false);
-                    checkedProducts.remove(currentProduct);
-                    deleteFromArray(product.getProduct(),product.getPID(),holder.qty.getText().toString());
-                }
-                else {
-            myCheckBox.setChecked(false);
+        int pos = findPosition(product.getPID());
+        if ( pos != -1){
+            holder.qty.setText(getQtyProducts().get(pos));
+            holder.myCheckBox.setChecked(true);
         }
+
+
+        //holder.productTextView.setText(getProduct().get(position));
+
+//      holder.myCheckBox.setChecked(product.isSelected());
+
+        holder.qty.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int pos = findPosition(product.getPID());
+                if(s.toString().equals(""))
+                    return;
+                if (Integer.parseInt(s.toString()) > 0){
+                    holder.myCheckBox.setChecked(true);
+                   // Model currentProduct=products[position];
+                    if(holder.myCheckBox.isChecked() && !holder.qty.getText().toString().equals("0") ) {
+                       // currentProduct.setSelected(true);
+                       // checkedProducts.add(currentProduct);
+                        if(pos != -1){
+                           updateArray(product.getProduct(),product.getPID(),holder.qty.getText().toString(),pos);
+                        }else{
+                            addToArray(product.getProduct(),product.getPID(),holder.qty.getText().toString());
+                        }
+
+                        //addQty(position,holder.qty.getText().toString());
+                    } else {
+                       // currentProduct.setSelected(false);
+                        //checkedProducts.remove(currentProduct);
+                        deleteFromArray(pos);
+                    }
+
+                }else {
+                    holder.myCheckBox.setChecked(false);
+                    deleteFromArray(pos);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
-
-
-
+//        holder.setItemClickListener(new MyNewViewHolder.ItemClickListener() {
+//            @Override
+//            public void onItemClick(View v, int pos) {
+//                final CheckBox myCheckBox= (CheckBox) v;
+//                Model currentProduct=products[pos];
+//
+//
+//                if(myCheckBox.isChecked() && !holder.qty.getText().toString().equals("0") ) {
+//                    currentProduct.setSelected(true);
+//                    checkedProducts.add(currentProduct);
+//                    addToArray(product.getProduct(),product.getPID());
+//                    addQty(pos,holder.qty.getText().toString());
+//
+//
+//                }
+//                else if(!myCheckBox.isChecked()) {
+//                    currentProduct.setSelected(false);
+//                    checkedProducts.remove(currentProduct);
+//                    deleteFromArray(product.getProduct(),product.getPID(),holder.qty.getText().toString());
+//                }
+//                else {
+//            myCheckBox.setChecked(false);
+//        }
+//            }
+//        });
 
     }
 
@@ -167,7 +180,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
             productTextView = itemView.findViewById(R.id.productTextView);
             //itemView.setOnClickListener(this);
             myCheckBox= itemView.findViewById(R.id.checkbox);
-            myCheckBox.setOnClickListener(this);
+           // myCheckBox.setOnClickListener(this);
 
             qty = itemView.findViewById(R.id.qty);
             iBtn = itemView.findViewById(R.id.iBtn);

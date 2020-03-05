@@ -4,11 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +35,7 @@ import static com.example.ncplnfml.CategoryActivity.getOrderProduct;
 import static com.example.ncplnfml.CategoryActivity.getQtyProducts;
 import static com.example.ncplnfml.CategoryActivity.orderPID;
 import static com.example.ncplnfml.LoginActivity.createConnection;
+import static com.example.ncplnfml.LoginActivity.customer_id;
 import static com.example.ncplnfml.LoginActivity.employeeName;
 import static com.example.ncplnfml.LoginActivity.employeeNumber;
 import static com.example.ncplnfml.LoginActivity.orgId;
@@ -35,30 +43,23 @@ import static com.example.ncplnfml.LoginActivity.orgId;
 public class OrderActivity extends AppCompatActivity {
 
 
-    private Connection connection;
-    private boolean connectivity;
+        private Connection connection;
+        private boolean connectivity;
 
-    RecyclerView recyclerView;
-    TextView product_name;
+        RecyclerView recyclerView;
+        TextView product_name;
+        EditText qty;
 
-    PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement;
 
-    Button submitBtn;
-    //FloatingActionButton btnCart;
-    //ElegantNumberButton numberButton;
-    //private String productName = "";
+        Button submitBtn;
+
         ArrayList<String> orderProducts = new ArrayList<>();
         ArrayList<String> qtyProducts = new ArrayList<>();
         ArrayList<String> ordersPID = new ArrayList<>();
 
+        String orderPID, qtyProduct,mid;
 
-//     ArrayList<String> mid = new ArrayList<>();
-//     ArrayList<String> date = new ArrayList<>();
-
-     String orderPID, qtyProduct,mid;
-
-
-   // OrderAdapter orderAdapter;
 
 
     @Override
@@ -67,16 +68,15 @@ public class OrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_order);
 
 
-        //category = getIntent().getParcelableArrayExtra("category");
+        getSupportActionBar().setTitle("Order Details");
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+
         initializeConnection();
         product_name = (TextView) findViewById(R.id.product_name);
         recyclerView = findViewById(R.id.orderRV);
         submitBtn = findViewById(R.id.submitBtn);
-        //unit_price = (TextView) findViewById(R.id.unit_price);
-        //btnCart = findViewById(R.id.btnCart);
-        //numberButton = findViewById(R.id.numberButton);
 
-        getSupportActionBar().setTitle("" +employeeName+ "");
 
         if(getIntent().hasExtra("product")){
             orderProducts = getIntent().getStringArrayListExtra("product");
@@ -93,24 +93,39 @@ public class OrderActivity extends AppCompatActivity {
             ordersPID = getIntent().getStringArrayListExtra("pid");
         }
 
-//        for(int i=0;i<orderProducts.size();i++){
-//             orderPID = ordersPID.get(i);
-//             qtyProduct = qtyProducts.get(i);
-//        }
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                    insertMaster();
-                    fetchMaster();
-                    insertDetail();
+                Context context;
+                final AlertDialog.Builder alert = new AlertDialog.Builder(OrderActivity.this);
+                alert.setTitle("Confirmation");
+                alert.setMessage("Do you want to submit?");
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        insertMaster();
+                        fetchMaster();
+                        insertDetail();
+                        getQtyProducts().clear();
+                        getOrderProduct().clear();
 
-                    getQtyProducts().clear();
-                getOrderProduct().clear();
+                        Intent intent = new Intent(OrderActivity.this,CategoryActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                Intent intent = new Intent(OrderActivity.this,CategoryActivity.class);
-                startActivity(intent);
+                    }
+                });
+                alert.create().show();
+
+
+
+
 
 
             }
@@ -120,35 +135,23 @@ public class OrderActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(orderAdapter);
 
-
-
-
-
-
-
-
-
     }
 
     public void insertMaster(){
         try {
-            //Toast.makeText(OrderActivity.this, "qqqq", Toast.LENGTH_SHORT).show();
-//                        String orderPID = ordersPID.get(i);
-//                        String qtyProduct = qtyProducts.get(i);
-            // String insertQuery = "INSERT INTO ORDER_DETAIL(INVENTORY_ITEM_ID,QTY,ORG_ID,ENTRY_BY,ENTRY_DATE)" + "VALUES('" + orderPID + "', " + qtyProduct + ", " + orgId + "," + employeeNumber + ",SYSDATE)";
 
             initializeConnection();
 
-            String insertQueryMaster = "INSERT INTO ORDER_MASTER(ENTRY_DATE,ENTRY_BY,ORG_ID)" + "VALUES(SYSDATE, " + employeeNumber + ", " + LoginActivity.org + ")";
+            String insertQueryMaster = "INSERT INTO ORDER_MASTER(ENTRY_DATE,ENTRY_BY,ORG_ID,CUSTOMER_ID)" + "VALUES(SYSDATE, " + employeeNumber + ", " + LoginActivity.org + "," + customer_id + ")";
             PreparedStatement preparedStatement = connection.prepareStatement(insertQueryMaster);
             preparedStatement.executeQuery();
 
 
 
 
+            //showAlertBox("Confirmation","Done");
 
-
-            Toast.makeText(OrderActivity.this, "Done", Toast.LENGTH_SHORT).show();
+          Toast.makeText(OrderActivity.this, "Done", Toast.LENGTH_SHORT).show();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -177,7 +180,7 @@ public class OrderActivity extends AppCompatActivity {
         ordersPID = getOrderPID();
         qtyProducts = getQtyProducts();
 
-        for(int i = 0; i<ordersPID.size() ; i++){
+        for(int i = 0; i<qtyProducts.size() ; i++){
             try {
 
                 orderPID = ordersPID.get(i);
@@ -214,4 +217,25 @@ public class OrderActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    private void showAlertBox(String title, String msg) {
+        new AlertDialog.Builder(OrderActivity.this)
+                .setTitle(title)
+                .setMessage(msg)
+
+                // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+//                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        // Continue with delete operation
+//                                    }
+//                                })
+                .setPositiveButton(android.R.string.yes, null)
+
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                //.setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
 }

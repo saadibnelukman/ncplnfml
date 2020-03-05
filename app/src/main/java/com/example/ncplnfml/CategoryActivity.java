@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -60,7 +62,7 @@ public class CategoryActivity extends AppCompatActivity {
 
 
 
-        getSupportActionBar().setTitle("" +employeeName+ "");
+        getSupportActionBar().setTitle("Category");
 
 
         categoryQuery = "select DISTINCT(ITEM_CATEGORY) from INVENTORY_ITEM where ORG_ID = '" +LoginActivity.org+ "'";
@@ -84,7 +86,7 @@ public class CategoryActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(catergoryAdaptor);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
         catergoryAdaptor.setOnItemClickListener(new CatergoryAdaptor.ClickListener() {
@@ -108,6 +110,11 @@ public class CategoryActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        logout();
     }
 
     @Override
@@ -145,11 +152,25 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void logout() {
+        final AlertDialog.Builder alert = new AlertDialog.Builder(CategoryActivity.this);
+        alert.setTitle("Confirmation");
+        alert.setMessage("Do you want to logout?");
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
+            }
+        });
+        alert.create().show();
 
-        Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-        startActivity(intent);
-        finish();
 
     }
 
@@ -157,22 +178,45 @@ public class CategoryActivity extends AppCompatActivity {
         return category;
     }
 
-    public static void addToArray(String s,String p){
+    public static void addToArray(String s, String p,String q){
         orderProducts.add(s);
         orderPID.add(p);
-    }
-
-    public static void deleteFromArray (String s,String p,String q){
-
-        orderProducts.remove(s);
-        orderPID.remove(p);
-        qtyProducts.remove(q);
-    }
-    public static void addQty(int position, String q){
         qtyProducts.add(q);
-        Log.d("Array", q+"--"+position);
-//        Toast.makeText(CategoryActivity.this,q+"--"+ position,Toast.LENGTH_SHORT).show();
+//        Log.d("add", s+"--"+i);
+//        Log.d("pid", p+"--"+);
     }
+
+    public static void updateArray(String s,String p,String q,int position){
+        orderProducts.set(position,s);
+        orderPID.set(position,p);
+        qtyProducts.set(position,q);
+
+    }
+
+
+
+    public static void deleteFromArray (int pos){
+
+        orderProducts.remove(pos);
+        orderPID.remove(pos);
+        qtyProducts.remove(pos);
+    }
+//    public static void addQty(int position, String q){
+//        qtyProducts.add(position, q);
+//        Log.d("Array", q+"--"+position);
+////        Toast.makeText(CategoryActivity.this,q+"--"+ position,Toast.LENGTH_SHORT).show();
+//    }
+public static int findPosition(String pid){
+    String value = "0";
+
+    for (int j = 0; j < orderPID.size(); j++) {
+        value = orderPID.get(j);
+        if (value.equalsIgnoreCase(pid)) {
+            return j;
+        }
+    }
+    return -1;
+}
     public static ArrayList<String> getOrderProduct(){
         return orderProducts;
     }

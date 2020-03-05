@@ -1,19 +1,27 @@
 package com.example.ncplnfml;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -30,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String DEFAULT_DRIVER = "oracle.jdbc.driver.OracleDriver";
     private static final String DEFAULT_URL = "jdbc:oracle:thin:@10.0.0.4:1521/orcl"; //CWPL IP
-   // private static final String DEFAULT_URL = "jdbc:oracle:thin:@163.47.147.74:1521/cwpl.mj-group.com";   //Real IP
+    //private static final String DEFAULT_URL = "jdbc:oracle:thin:@163.47.147.74:1521/cwpl";   //Real IP
     private static String DEFAULT_USERNAME = "RSSALES";
     private static String DEFAULT_PASSWORD = "123";
 
@@ -43,12 +51,16 @@ public class LoginActivity extends AppCompatActivity {
     public static String employeeNumber;
     public static String employeeName;
     public static String orgId;
+    public static String customer_id;
 
 
     //edit text and buttons
 
-    private EditText userName;
-    private EditText password;
+    private TextInputLayout userName,password;
+
+
+//    private EditText userName;
+//    private EditText password;
     private Button signinbtn;
 
     MaterialSpinner spinner;
@@ -68,16 +80,18 @@ public class LoginActivity extends AppCompatActivity {
             StrictMode.setThreadPolicy(policy);
         }
 
+        //closeKeyboard();
         initializeConnection();
 
-        userName = (EditText) findViewById(R.id.username);
-        password = (EditText) findViewById(R.id.password);
+        userName =  findViewById(R.id.username);
+        password =  findViewById(R.id.password);
         signinbtn = (Button) findViewById(R.id.signinbtn);
         spinner = (MaterialSpinner) findViewById(R.id.orgSpinner);
 
 
         String orgQuery = "select DISTINCT(ORG_ID) from INVENTORY_ITEM";
         try {
+            initializeConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(orgQuery);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -95,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        //listItems.add(orgName);
 
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_dropdown_item,listItems);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -106,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if(position != -1){
 
-                    //org = spinner.getItemAtPosition(position).toString();
+                    org = spinner.getItemAtPosition(position).toString();
 
                     if (spinner.getItemAtPosition(position).toString().equals("Northern Flour Mills Limited")){
                         org = "547";
@@ -127,19 +142,21 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
+
+
         signinbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (TextUtils.isEmpty(userName.getText().toString())) {
+                if (TextUtils.isEmpty(userName.getEditText().getText().toString())) {
                     userName.setError("Enter Username");
-                } else if (TextUtils.isEmpty(password.getText().toString())) {
+                } else if (TextUtils.isEmpty(password.getEditText().getText().toString())) {
                     password.setError("Enter Password");
-                } else {
+                }else {
                     if (connectivity) {
 
-                        query = "select EMPLOYEE_NUMBER, EMPLOYEE_NAME from USERS where USERNAME = '"
-                                + userName.getText().toString() + "' AND PASSWORD = '" + password.getText().toString() + "' AND ORG_ID = '" +org+ "'";
+                        query = "select EMPLOYEE_NUMBER, EMPLOYEE_NAME, CUSTOMER_ID from USERS where USERNAME = '"
+                                + userName.getEditText().getText().toString() + "' AND PASSWORD = '" + password.getEditText().getText().toString() + "' AND ORG_ID = '" +org+ "'";
 
                         try {
                             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -147,6 +164,7 @@ public class LoginActivity extends AppCompatActivity {
                             while (resultSet.next()) {
                                 employeeNumber = resultSet.getString(1);
                                 employeeName = resultSet.getString(2);
+                                customer_id = resultSet.getString(3);
                                 //orgId = resultSet.getString(3);
                             }
                         } catch (SQLException e) {
@@ -164,15 +182,15 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-                            userName.setText(null);
-                            password.setText(null);
+                            userName.getEditText().setText(null);
+                            password.getEditText().setText(null);
                             finish();
                         }else{
                             print("Invalid user name or password");
                         }
                     }else{
                         print("Connection error check internet connection and try again.");
-                        //initializeConnection();
+                        initializeConnection();
                     }
 
 
@@ -182,7 +200,44 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+        userName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
+
     }
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
+    }
+
+
     private static Connection createConnection(String driver, String url, String username, String password) throws ClassNotFoundException, SQLException {
         Class.forName(driver);
         return DriverManager.getConnection(url, username, password);
@@ -195,8 +250,10 @@ public class LoginActivity extends AppCompatActivity {
     public void initializeConnection(){
         try {
             this.connection = createConnection();
-            statement = connection.createStatement();
+//            statement = connection.createStatement();
             connectivity = true;
+
+            //showAlertBox("Connection","You are Connected");
             Toast.makeText(this, "Connected.", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             connectivity = false;
@@ -207,6 +264,29 @@ public class LoginActivity extends AppCompatActivity {
     public  void print(String msg){
         Toast.makeText(this,msg,Toast.LENGTH_LONG).show();
 
+    }
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+    private void showAlertBox(String title, String msg) {
+        new AlertDialog.Builder(LoginActivity.this)
+                .setTitle(title)
+                .setMessage(msg)
+
+                // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+//                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        // Continue with delete operation
+//                                    }
+//                                })
+                .setPositiveButton(android.R.string.yes, null)
+
+                // A null listener allows the button to dismiss the dialog and take no further action.
+                //.setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
 

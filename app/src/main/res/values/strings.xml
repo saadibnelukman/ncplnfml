@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">ncplnfml</string>
 
-    <string name="product"><u>Product Name</u></string>
-    <string name="qty"><u>Quantity</u></string>
+
+    <string name="password">Password</string>
+    <string name="product">Product Name</string>
+    <string name="qty">Quantity</string>
+    <string name="user_name">User Name</string>
 </resources>

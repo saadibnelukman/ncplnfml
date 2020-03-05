@@ -6,10 +6,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -72,7 +75,7 @@ public class ProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         recyclerView = findViewById(R.id.product_RV);
 
 
@@ -118,37 +121,6 @@ public class ProductActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-
-//        fbtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                int i=0;
-//                do {
-//                    Model product=productAdapter.checkedProducts.get(i);
-//                    addToArray(product.getProduct(),product.getPID());
-//                    i++;
-//
-//                }while (i < productAdapter.checkedProducts.size());
-//
-//
-//                if(productAdapter.checkedProducts.size()>0)
-//                {
-//                    Toast.makeText(ProductActivity.this,"Items Added"+"",Toast.LENGTH_LONG).show();
-//                }else
-//                {
-//                    Toast.makeText(ProductActivity.this,"Please Check An Item First", Toast.LENGTH_SHORT).show();
-//                }
-//
-//            }
-//        });
-
-
-
-
-
-
         productAdapter = new ProductAdapter(this,model);
         recyclerView.setAdapter(productAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -156,32 +128,10 @@ public class ProductActivity extends AppCompatActivity {
 //        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,1);
 //        recyclerView.setLayoutManager(gridLayoutManager);
 
+
+
+
     }
-
-//    public static void setOff(){
-//        ibtn.setEnabled(false);
-//        dbtn.setEnabled(false);
-//        qty.setEnabled(false);
-//    }
-
-//    public static void  addModel(){
-//        int i=0;
-//        do {
-//            Model product=productAdapter.checkedProducts.get(i);
-//            addToArray(product.getProduct(),product.getPID());
-//            i++;
-//
-//        }while (i < productAdapter.checkedProducts.size());
-
-
-//        if(productAdapter.checkedProducts.size()>0)
-//        {
-//            Toast.makeText(ProductActivity.this,"Items Added"+"",Toast.LENGTH_LONG).show();
-//        }else
-//        {
-//            Toast.makeText(ProductActivity.this,"Please Check An Item First", Toast.LENGTH_SHORT).show();
-//        }
-//    }
 
 
     public void initializeConnection(){
@@ -196,4 +146,6 @@ public class ProductActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
 }

@@ -12,12 +12,15 @@
         android:id="@+id/cart"
         android:title="Cart"
         app:showAsAction="always"
-        android:icon="@drawable/ic_shopping_cart_black_24dp"></item>
+        android:icon="@drawable/ic_shopping_cart_black_24dp">
+
+    </item>
 
     <item
         android:id="@+id/history"
         android:title="Orders"
+        >
 
-        ></item>
+    </item>
 
 </menu>

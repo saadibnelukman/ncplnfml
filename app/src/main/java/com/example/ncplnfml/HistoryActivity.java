@@ -66,7 +66,7 @@ public class HistoryActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        getSupportActionBar().setTitle("" +employeeName+ "");
+        getSupportActionBar().setTitle("Order History");
 
 
 
@@ -142,7 +142,7 @@ public class HistoryActivity extends AppCompatActivity {
     }
 
     public void getMID(){
-        midQuery = "select M_ID from ORDER_MASTER where TO_CHAR(ENTRY_DATE,'dd/mm/yyyy') = TO_CHAR(SYSDATE,'dd/mm/yyyy')  AND ORG_ID = '"+orgId+"' AND ENTRY_BY = '"+employeeNumber+"'";
+        midQuery = "select M_ID from ORDER_MASTER where TO_CHAR(ENTRY_DATE,'dd/mm/yyyy') = TO_CHAR(SYSDATE,'dd/mm/yyyy')  AND ORG_ID = '"+LoginActivity.org+"' AND ENTRY_BY = '"+employeeNumber+"'";
         try {
             PreparedStatement preparedStatementMID = connection.prepareStatement(midQuery);
             ResultSet resultSetName = preparedStatementMID.executeQuery();
