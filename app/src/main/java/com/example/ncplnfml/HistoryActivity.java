@@ -143,6 +143,7 @@ public class HistoryActivity extends AppCompatActivity {
                     concat_order.add( order_date.get(i) + " SL " + mid.get(i));
                     Log.d("mid",concat_order.get(i));
                 }
+                spinner.setSelection(1);
 
             }
         });
