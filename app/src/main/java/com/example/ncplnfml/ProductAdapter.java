@@ -99,7 +99,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int pos = findPosition(product.getPID());
                 if(s.toString().equals("")){
-                    return;}
+                    holder.qty.setText("0");
+                    return;
+                }
+
                 if (Integer.parseInt(s.toString()) > 0){
                     holder.myCheckBox.setChecked(true);
                    // Model currentProduct=products[position];
@@ -124,6 +127,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
                         deleteFromArray(pos);
                     }
 
+                }else if (Integer.parseInt(s.toString()) == 0){
+                    holder.myCheckBox.setChecked(false);
                 }else {
                     holder.myCheckBox.setChecked(false);
                    // holder.dBtn.setEnabled(false);
