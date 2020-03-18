@@ -54,7 +54,9 @@
 
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_below="@id/title"
+        android:layout_above="@id/defect_check"
         android:layout_width="match_parent"
         android:overScrollMode="never"
         android:layout_marginTop="10dp"
@@ -64,10 +66,20 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/orderRV"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
 
         />
     </androidx.core.widget.NestedScrollView>
+
+    <CheckBox
+        android:id="@+id/defect_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/submitBtn"
+        android:text="Damaged Items"
+        android:buttonTint="@color/colorPrimary">
+
+    </CheckBox>
 
 
         <Button

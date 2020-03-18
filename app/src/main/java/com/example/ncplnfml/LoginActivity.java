@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -37,7 +38,7 @@ import fr.ganfra.materialspinner.MaterialSpinner;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String DEFAULT_DRIVER = "oracle.jdbc.driver.OracleDriver";
-    private static final String DEFAULT_URL = "jdbc:oracle:thin:@10.0.0.4:1521/orcl"; //CWPL IP
+    private static final String DEFAULT_URL = "jdbc:oracle:thin:@10.0.0.3:1521/orcl"; //CWPL IP
     //private static final String DEFAULT_URL = "jdbc:oracle:thin:@163.47.147.74:1521/cwpl";   //Real IP
     private static String DEFAULT_USERNAME = "RSSALES";
     private static String DEFAULT_PASSWORD = "123";
@@ -52,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
     public static String employeeName;
     public static String orgId;
     public static String customer_id;
+    public static String user_type;
 
 
     //edit text and buttons
@@ -155,26 +157,36 @@ public class LoginActivity extends AppCompatActivity {
                 }else {
                     if (connectivity) {
 
-                        query = "select EMPLOYEE_NUMBER, EMPLOYEE_NAME, CUSTOMER_ID from USERS where USERNAME = '"
-                                + userName.getEditText().getText().toString() + "' AND PASSWORD = '" + password.getEditText().getText().toString() + "' AND ORG_ID = '" +org+ "'";
+                        Log.d("username","username: "+userName.getEditText().getText().toString() );
+                        Log.d("username","pass: "+password.getEditText().getText().toString() );
+                        Log.d("username","org: "+org );
 
+//                        query = "select EMPLOYEE_NUMBER, EMPLOYEE_NAME, CUSTOMER_ID from USERS where USERNAME = '"
+//                                + userName.getEditText().getText().toString() + "' AND PASSWORD = '" + password.getEditText().getText().toString() + "' AND ORG_ID = '" +org+ "'";
+//                        query = "select 1 INFO, CUSTOMER_NAME NAME, CUSTOMER_ID from CUSTOMER_INFO where CUSTOMER_ID = '" + userName.getEditText().getText().toString() + "' AND PASSWORD = '" + password.getEditText().getText().toString() + "' AND ORG_ID = '" +org+ "' UNION select 2 INFO, EMPLOYEE_NAME NAME, CUSTOMER_ID from USERS where USERNAME = '" + userName.getEditText().getText().toString() + "' AND PASSWORD = '" + password.getEditText().getText().toString() + "' AND ORG_ID = '" +org+ "'";
+//                      query = "select 1 INFO, CUSTOMER_NAME NAME, CUSTOMER_ID from CUSTOMER_INFO where CUSTOMER_ID = '"+ userName.getEditText().getText().toString().trim()+"' AND PASSWORD = '"+ password.getEditText().getText().toString().trim()+"' AND ORG_ID = '"+ org +"' UNION select 2 INFO, EMPLOYEE_NAME NAME, CUSTOMER_ID from USERS where USERNAME = '"+ userName.getEditText().getText().toString().trim()+"' AND PASSWORD = '"+ password.getEditText().getText().toString().trim()+"' AND ORG_ID = '"+ org +"'";
+                      query = "select 1 INFO,CUSTOMER_ID EMPLOYEE_NUMBER,CUSTOMER_NAME EMPLOYEE_NAME,CUSTOMER_ID from CUSTOMER_INFO where CUSTOMER_ID = '"+userName.getEditText().getText().toString()+"' AND PASSWORD = '"+password.getEditText().getText().toString()+"' AND ORG_ID = '"+org+"' UNION select 2 INFO,EMPLOYEE_NUMBER EMPLOYEE_NUMBER,EMPLOYEE_NAME EMPLOYEE_NAME, CUSTOMER_ID from USERS where EMPLOYEE_NUMBER = '"+userName.getEditText().getText().toString()+"' AND PASSWORD = '"+password.getEditText().getText().toString()+"' AND ORG_ID = '"+org+"'";
+                        employeeNumber = null;
                         try {
                             PreparedStatement preparedStatement = connection.prepareStatement(query);
                             ResultSet resultSet = preparedStatement.executeQuery();
                             while (resultSet.next()) {
-                                employeeNumber = resultSet.getString(1);
-                                employeeName = resultSet.getString(2);
-                                customer_id = resultSet.getString(3);
+                                user_type = resultSet.getString(1);
+                                employeeNumber = resultSet.getString(2);
+                                employeeName = resultSet.getString(3);
+                                customer_id = resultSet.getString(4);
                                 //orgId = resultSet.getString(3);
                             }
                         } catch (SQLException e) {
+                            employeeNumber = null;
                             e.printStackTrace();
                         }
 
                         if (employeeNumber != null) {
 
                             Intent intent = new Intent(getApplicationContext(), CategoryActivity.class);
-                            intent.putExtra("EMPLOYEE_NUMBER", employeeNumber);
+                            //intent.putExtra("EMPLOYEE_NUMBER", employeeNumber);
+                            intent.putExtra("CUSTOMER_ID", customer_id);
                             intent.putExtra("EMPLOYEE_NAME", employeeName);
                             intent.putExtra("ORG_ID", org);
 

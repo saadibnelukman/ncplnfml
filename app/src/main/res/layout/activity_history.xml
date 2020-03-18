@@ -9,12 +9,78 @@
     android:layout_margin="8dp">
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        >
 
+        <TextView
+            android:id="@+id/from_date_TV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="From_Date"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+
+            >
+
+        </TextView>
+        <Button
+            android:id="@+id/from_date"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight=".2"
+            android:background="@drawable/ic_date_range_black_24dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_gravity="center">
+
+        </Button>
+        <TextView
+            android:id="@+id/to_date_TV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="To_Date"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            >
+
+        </TextView>
+        <Button
+            android:id="@+id/to_date"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight=".2"
+            android:background="@drawable/ic_date_range_black_24dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_gravity="center">
+
+        </Button>
+        <Button
+            android:id="@+id/show_btn"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+           android:layout_marginLeft="15dp"
+            android:layout_weight=".8"
+            android:text="Show"
+            android:textSize="10dp"
+            android:textColor="@color/white"
+            android:background="@drawable/darkbutton"
+            android:layout_gravity="center">
+
+        </Button>
+
+    </LinearLayout>
 
     <fr.ganfra.materialspinner.MaterialSpinner
         android:id="@+id/midSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_gravity="center"
         app:ms_arrowColor="@color/colorApp"
         app:ms_arrowSize="16dp"
@@ -22,10 +88,11 @@
         app:ms_hintColor="@color/black"
         android:autofillHints="Please Choose"
         app:ms_multiline="true"
-
         >
 
     </fr.ganfra.materialspinner.MaterialSpinner>
+    
+
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

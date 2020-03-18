@@ -33,6 +33,7 @@ import java.util.List;
 
 import static com.example.ncplnfml.CategoryActivity.addToArray;
 import static com.example.ncplnfml.LoginActivity.createConnection;
+import static com.example.ncplnfml.LoginActivity.customer_id;
 import static com.example.ncplnfml.LoginActivity.orgId;
 
 public class ProductActivity extends AppCompatActivity {
@@ -57,6 +58,7 @@ public class ProductActivity extends AppCompatActivity {
 
     private static ArrayList<String>product = new ArrayList<>();
     private static ArrayList<String>pid = new ArrayList<>();
+    public static ArrayList<String>ava_qty = new ArrayList<>();
     private static Model[] model;
     //public static Model[] model;
 
@@ -90,7 +92,8 @@ public class ProductActivity extends AppCompatActivity {
 
         }
 
-        productQuery ="select DESCRIPTION, INVENTORY_ITEM_ID from INVENTORY_ITEM where ITEM_CATEGORY = '"+ category +"' AND ORG_ID ='"+LoginActivity.org+"'";
+        //productQuery ="select DESCRIPTION, INVENTORY_ITEM_ID from INVENTORY_ITEM where ITEM_CATEGORY = '"+ category +"' AND ORG_ID ='"+LoginActivity.org+"'";
+        productQuery ="select II.DESCRIPTION, II.INVENTORY_ITEM_ID,IT.AVA_QTY from INVENTORY_ITEM II,ITEM_STOCK IT where II.ITEM_CATEGORY = '"+ category +"' AND II.ORG_ID ='"+ LoginActivity.org +"' AND II.INVENTORY_ITEM_ID = IT.INVENTORY_ITEM_ID AND IT.CUSTOMER_ID = '"+customer_id+"'";
 
 
 
@@ -104,13 +107,14 @@ public class ProductActivity extends AppCompatActivity {
             while (resultSetProduct.next()) {
                 product.add(resultSetProduct.getString(1));
                 pid.add(resultSetProduct.getString(2));
+                ava_qty.add(resultSetProduct.getString(3));
 
 
 
             }
             model = new Model[product.size()];
             for(int i=0; i< model.length;i++) {
-                model[i] = new Model(product.get(i),pid.get(i));
+                model[i] = new Model(product.get(i),pid.get(i),ava_qty.get(i));
             }
             Toast.makeText(ProductActivity.this,model.length+"", Toast.LENGTH_SHORT).show();
 

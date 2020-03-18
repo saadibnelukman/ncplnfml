@@ -26,6 +26,7 @@ import static com.example.ncplnfml.CategoryActivity.deleteFromArray;
 import static com.example.ncplnfml.CategoryActivity.findPosition;
 import static com.example.ncplnfml.CategoryActivity.getList;
 import static com.example.ncplnfml.CategoryActivity.getQtyProducts;
+import static com.example.ncplnfml.CategoryActivity.removeOrderProducts;
 import static com.example.ncplnfml.CategoryActivity.updateArray;
 //import static com.example.ncplnfml.ProductActivity.addModel;
 //import static com.example.ncplnfml.ProductActivity.getProduct;
@@ -72,11 +73,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
     public void onBindViewHolder(@NonNull final MyNewViewHolder holder, final int position) {
          final Model product=products[position];
         holder.productTextView.setText(product.getProduct());
+        //holder.qty.setText(getQtyProducts().get(position));
+        holder.ava_qty.setText(product.getAvaQty());
 
+        if(getQtyProducts().size() > 0){
         int pos = findPosition(product.getPID());
         if ( pos != -1){
             holder.qty.setText(getQtyProducts().get(pos));
             holder.myCheckBox.setChecked(true);
+        }
         }
 
 
@@ -93,8 +98,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int pos = findPosition(product.getPID());
-                if(s.toString().equals(""))
-                    return;
+                if(s.toString().equals("")){
+                    return;}
                 if (Integer.parseInt(s.toString()) > 0){
                     holder.myCheckBox.setChecked(true);
                    // Model currentProduct=products[position];
@@ -102,6 +107,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
                        // currentProduct.setSelected(true);
                        // checkedProducts.add(currentProduct);
                         if(pos != -1){
+                            if(Integer.parseInt(product.getAvaQty()) < Integer.parseInt(holder.qty.getText().toString())){
+
+                                holder.qty.setText(product.getAvaQty());
+                            }
                            updateArray(product.getProduct(),product.getPID(),holder.qty.getText().toString(),pos);
                         }else{
                             addToArray(product.getProduct(),product.getPID(),holder.qty.getText().toString());
@@ -111,11 +120,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
                     } else {
                        // currentProduct.setSelected(false);
                         //checkedProducts.remove(currentProduct);
+                        //removeOrderProducts(product.getProduct(),product.getPID(),holder.qty.getText().toString());
                         deleteFromArray(pos);
                     }
 
                 }else {
                     holder.myCheckBox.setChecked(false);
+                   // holder.dBtn.setEnabled(false);
+                   // if (Integer.parseInt(holder.qty.getText().toString()) > 0)
+                        //removeOrderProducts(product.getProduct(),product.getPID(),holder.qty.getText().toString());
                     deleteFromArray(pos);
                 }
             }
@@ -163,12 +176,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
 
     static class MyNewViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView productTextView;
+        TextView productTextView,ava_qty;
 
         CheckBox myCheckBox;
 
         ItemClickListener itemClickListener;
-        //ClickListenerProduct clickListenerProduct;
         ElegantNumberButton qtyBtn;
         EditText qty;
 
@@ -178,14 +190,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
             super(itemView);
 
             productTextView = itemView.findViewById(R.id.productTextView);
-            //itemView.setOnClickListener(this);
+            ava_qty = itemView.findViewById(R.id.ava_qty);
             myCheckBox= itemView.findViewById(R.id.checkbox);
            // myCheckBox.setOnClickListener(this);
 
             qty = itemView.findViewById(R.id.qty);
             iBtn = itemView.findViewById(R.id.iBtn);
             dBtn = itemView.findViewById(R.id.dBtn);
-            //qtyBtn.setOnClickListener(this);
 
             String eText = qty.getText().toString();
 
@@ -208,6 +219,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
                 public void onClick(View v) {
                     int counter;
                     counter=Integer.parseInt(qty.getText().toString());
+                    if (counter <= 0){
+                        return;
+                    }
                     if (counter>0){
                         counter--;
                     }

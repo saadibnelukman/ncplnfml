@@ -26,8 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.ncplnfml.LoginActivity.createConnection;
+import static com.example.ncplnfml.LoginActivity.customer_id;
 import static com.example.ncplnfml.LoginActivity.employeeName;
 import static com.example.ncplnfml.LoginActivity.employeeNumber;
+import static com.example.ncplnfml.LoginActivity.user_type;
 
 public class CategoryActivity extends AppCompatActivity {
 
@@ -62,10 +64,12 @@ public class CategoryActivity extends AppCompatActivity {
 
 
 
-        getSupportActionBar().setTitle("Category");
+        getSupportActionBar().setTitle(employeeName);
 
 
-        categoryQuery = "select DISTINCT(ITEM_CATEGORY) from INVENTORY_ITEM where ORG_ID = '" +LoginActivity.org+ "'";
+
+        //categoryQuery = "select DISTINCT(ITEM_CATEGORY) from INVENTORY_ITEM where ORG_ID = '" +LoginActivity.org+ "' ";
+        categoryQuery = "select DISTINCT(ITEM_CATEGORY) from INVENTORY_ITEM II,ITEM_STOCK IT where II.ORG_ID = '" +LoginActivity.org+ "' AND II.INVENTORY_ITEM_ID = IT.INVENTORY_ITEM_ID AND IT.CUSTOMER_ID = '"+customer_id+"'";
         initializeConnection();
         category.clear();
         try {
@@ -122,19 +126,32 @@ public class CategoryActivity extends AppCompatActivity {
 
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_layout,menu);
+//        invalidateOptionsMenu();
+
 
         return super.onCreateOptionsMenu(menu);
     }
 
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu) {
+//        MenuItem item = menu.findItem(R.id.emp_info);
+//        if (item.getTitle().equals("")) {
+//            item.setTitle(employeeName);
+//
+//            //inBed = false;
+//        }
+////        else {
+////            item.setTitle("Set to 'In bed'");
+////            inBed = true;
+////        }
+//
+//        return super.onPrepareOptionsMenu(menu);
+//    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId() == R.id.logout){
-
-            logout();
-
-            return  true;
-        } if(item.getItemId() == R.id.cart){
+        if(item.getItemId() == R.id.cart){
             Intent intent = new Intent(CategoryActivity.this,OrderActivity.class);
             intent.putExtra("product",orderProducts);
             intent.putExtra("qty",qtyProducts);
@@ -143,13 +160,30 @@ public class CategoryActivity extends AppCompatActivity {
 
         } if(item.getItemId() == R.id.history){
 
+            if(user_type.equals("1")){
+                item.setTitle("Orders History");
+            }else{
+                item.setTitle("Sales History");
+            }
+
             Intent intent = new Intent(CategoryActivity.this,HistoryActivity.class);
             startActivity(intent);
         }
+        if(item.getItemId() == R.id.logout){
+
+            logout();
+
+            return  true;
+        }
+//        if(item.getItemId() == R.id.emp_info){
+//
+//           item.setTitle(""+employeeName);
+//        }
 
 
         return super.onOptionsItemSelected(item);
     }
+
 
     private void logout() {
         final AlertDialog.Builder alert = new AlertDialog.Builder(CategoryActivity.this);
@@ -160,6 +194,9 @@ public class CategoryActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 startActivity(intent);
+                orderProducts.clear();
+                orderPID.clear();
+                qtyProducts.clear();
                 finish();
             }
         });
@@ -217,14 +254,15 @@ public static int findPosition(String pid){
     }
     return -1;
 }
-    public static ArrayList<String> getOrderProduct(){
-        return orderProducts;
-    }
+
     public static void removeOrderProducts(String s,String p,String q){
 
         orderProducts.remove(s);
         orderPID.remove(p);
         qtyProducts.remove(q);
+    }
+    public static ArrayList<String> getOrderProduct(){
+        return orderProducts;
     }
     public static ArrayList<String>getQtyProducts(){
         return qtyProducts;

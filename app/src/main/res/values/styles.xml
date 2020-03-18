@@ -30,5 +30,13 @@
         <item name="android:orientation">vertical</item>
         <item name="android:scrollbarThumbVertical">@color/colorPrimary</item>
     </style>
+    <!-- warna header kalender -->
+    <style name="DatePicker1" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@android:color/holo_red_dark</item>
+    </style>
+
+    <style name="DatePicker2" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@android:color/black</item>
+    </style>
 
 </resources>
