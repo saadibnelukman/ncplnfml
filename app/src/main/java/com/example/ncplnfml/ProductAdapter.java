@@ -105,23 +105,23 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
 
                 if (Integer.parseInt(s.toString()) > 0){
                     holder.myCheckBox.setChecked(true);
-                   // Model currentProduct=products[position];
+                    // Model currentProduct=products[position];
                     if(holder.myCheckBox.isChecked() && !holder.qty.getText().toString().equals("0") ) {
-                       // currentProduct.setSelected(true);
-                       // checkedProducts.add(currentProduct);
+                        // currentProduct.setSelected(true);
+                        // checkedProducts.add(currentProduct);
                         if(pos != -1){
                             if(Integer.parseInt(product.getAvaQty()) < Integer.parseInt(holder.qty.getText().toString())){
 
                                 holder.qty.setText(product.getAvaQty());
                             }
-                           updateArray(product.getProduct(),product.getPID(),holder.qty.getText().toString(),pos);
+                            updateArray(product.getProduct(),product.getPID(),holder.qty.getText().toString(),pos);
                         }else{
                             addToArray(product.getProduct(),product.getPID(),holder.qty.getText().toString());
                         }
 
                         //addQty(position,holder.qty.getText().toString());
                     } else {
-                       // currentProduct.setSelected(false);
+                        // currentProduct.setSelected(false);
                         //checkedProducts.remove(currentProduct);
                         //removeOrderProducts(product.getProduct(),product.getPID(),holder.qty.getText().toString());
                         deleteFromArray(pos);
@@ -131,9 +131,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
                     holder.myCheckBox.setChecked(false);
                 }else {
                     holder.myCheckBox.setChecked(false);
-                   // holder.dBtn.setEnabled(false);
-                   // if (Integer.parseInt(holder.qty.getText().toString()) > 0)
-                        //removeOrderProducts(product.getProduct(),product.getPID(),holder.qty.getText().toString());
+                    // holder.dBtn.setEnabled(false);
+                    // if (Integer.parseInt(holder.qty.getText().toString()) > 0)
+                    //removeOrderProducts(product.getProduct(),product.getPID(),holder.qty.getText().toString());
                     deleteFromArray(pos);
                 }
             }
