@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import static com.example.ncplnfml.CategoryActivity.addToArray;
 import static com.example.ncplnfml.CategoryActivity.deleteFromArray;
 import static com.example.ncplnfml.CategoryActivity.findPosition;
+import static com.example.ncplnfml.CategoryActivity.getAvaProducts;
 import static com.example.ncplnfml.CategoryActivity.getOrderPID;
 import static com.example.ncplnfml.CategoryActivity.getOrderProduct;
 import static com.example.ncplnfml.CategoryActivity.getQtyProducts;
@@ -76,7 +77,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 //                int pos = findPosition(getOrderPID().get(position));
 //                updateArray(getQtyProducts().get(position),getOrderPID().get(position),holder.qty.getText().toString(),pos);
 
-                int pos = findPosition(product.getPID());
+                int pos = findPosition(getOrderPID().get(position));
                 if(holder.qty.getText().toString().equals("")){
 
                     return;
@@ -88,10 +89,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
                         // currentProduct.setSelected(true);
                         // checkedProducts.add(currentProduct);
                         if(pos != -1){
-                            if(Integer.parseInt(product.getAvaQty()) < Integer.parseInt(holder.qty.getText().toString())){
+                            if(Integer.parseInt(getAvaProducts().get(pos)) < Integer.parseInt(holder.qty.getText().toString())){
 
-                                holder.qty.setText(product.getAvaQty());
-                                updateArray(product.getProduct(),product.getPID(),holder.qty.getText().toString(),pos);
+                                holder.qty.setText(getAvaProducts().get(pos));
+                                updateArray(getOrderProduct().get(pos),getOrderPID().get(pos),holder.qty.getText().toString(),getAvaProducts().get(pos),pos);
 
                             }
 

@@ -47,6 +47,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     ArrayList<String> mid = new ArrayList<>();
     ArrayList<String> order_date = new ArrayList<>();
+    ArrayList<String> damage_stat = new ArrayList<>();
     public static ArrayList<String> qty = new ArrayList<>();
     public static ArrayList<String> desc = new ArrayList<>();
     ArrayList<String> concat_order = new ArrayList<>();
@@ -140,7 +141,12 @@ public class HistoryActivity extends AppCompatActivity {
                 }
                 concat_order.clear();
                 for (int i = 0; i < length; i++) {
-                    concat_order.add( order_date.get(i) + " SL " + mid.get(i));
+                    String damage = damage_stat.get(i);
+                    if(damage.equals("0")) {
+                        concat_order.add(order_date.get(i) + " SL " + mid.get(i));
+                    }else{
+                        concat_order.add(order_date.get(i) + " SL " + mid.get(i) + " " + "**");
+                    }
                     Log.d("mid",concat_order.get(i));
                 }
                 spinner.setSelection(1);
@@ -312,7 +318,7 @@ public class HistoryActivity extends AppCompatActivity {
     public void getMID(){
         //midQuery = "select M_ID from ORDER_MASTER where TO_CHAR(ENTRY_DATE,'dd/mm/yyyy') = TO_CHAR(SYSDATE,'dd/mm/yyyy')  AND ORG_ID = '"+LoginActivity.org+"' AND ENTRY_BY = '"+employeeNumber+"'";
         //midQuery = "select M_ID from ORDER_MASTER where ENTRY_BY = '"+employeeNumber+"' AND ENTRY_DATE BETWEEN TO_DATE('"+date1+"','mm/dd/yyyy') AND TO_DATE('"+date2+"','mm/dd/yyyy') ORDER BY M_ID DESC";
-        midQuery = "select M_ID, TO_CHAR(ENTRY_DATE,'DD-MON-YYYY') from ORDER_MASTER where ENTRY_BY = '"+employeeNumber+"' AND TO_DATE(ENTRY_DATE) BETWEEN TO_DATE('"+date1+"','mm/dd/yyyy') AND TO_DATE('"+date2+"','mm/dd/yyyy') ORDER BY M_ID DESC";
+        midQuery = "select M_ID, TO_CHAR(ENTRY_DATE,'DD-MON-YYYY'),DAMAGED from ORDER_MASTER where ENTRY_BY = '"+employeeNumber+"' AND TO_DATE(ENTRY_DATE) BETWEEN TO_DATE('"+date1+"','mm/dd/yyyy') AND TO_DATE('"+date2+"','mm/dd/yyyy') ORDER BY M_ID DESC";
         mid.clear();
         order_date.clear();
         try {
@@ -322,6 +328,7 @@ public class HistoryActivity extends AppCompatActivity {
             while (resultSetName.next()) {
                 mid.add(resultSetName.getString(1));
                 order_date.add(resultSetName.getString(2));
+                damage_stat.add(resultSetName.getString(3));
             }
 
         } catch (SQLException e) {

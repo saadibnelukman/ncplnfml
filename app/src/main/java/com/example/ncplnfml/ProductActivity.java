@@ -7,9 +7,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -32,9 +37,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.ncplnfml.CategoryActivity.addToArray;
+import static com.example.ncplnfml.CategoryActivity.getOrderPID;
+import static com.example.ncplnfml.CategoryActivity.getOrderProduct;
+import static com.example.ncplnfml.CategoryActivity.getQtyProducts;
 import static com.example.ncplnfml.LoginActivity.createConnection;
 import static com.example.ncplnfml.LoginActivity.customer_id;
 import static com.example.ncplnfml.LoginActivity.orgId;
+import static com.example.ncplnfml.LoginActivity.user_type;
 
 public class ProductActivity extends AppCompatActivity {
 
@@ -59,7 +68,7 @@ public class ProductActivity extends AppCompatActivity {
     private static ArrayList<String>product = new ArrayList<>();
     private static ArrayList<String>pid = new ArrayList<>();
     public static ArrayList<String>ava_qty = new ArrayList<>();
-    private static Model[] model;
+    public static Model[] model;
     //public static Model[] model;
 
     static ProductAdapter productAdapter;
@@ -136,7 +145,75 @@ public class ProductActivity extends AppCompatActivity {
 
 
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_layout,menu);
+//        invalidateOptionsMenu();
+
+
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.logout);
+        item.setVisible(false);
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.cart){
+            Intent intent = new Intent(ProductActivity.this,OrderActivity.class);
+//            intent.putExtra("product",orderProducts);
+//            intent.putExtra("qty",qtyProducts);
+//            intent.putExtra("pid",orderPID);
+            startActivity(intent);
+
+        }
+        if(item.getItemId() == R.id.history){
+
+            if(user_type.equals("1")){
+                item.setTitle("Orders History");
+            }else{
+                item.setTitle("Sales History");
+            }
+
+            Intent intent = new Intent(ProductActivity.this,HistoryActivity.class);
+            startActivity(intent);
+        }
+//        if(item.getItemId() == R.id.logout){
+//
+//            logout();
+//
+//            return  true;
+//        }
+//        if(item.getItemId() == R.id.emp_info){
+//
+//           item.setTitle(""+employeeName);
+//        }
+
+
+        return super.onOptionsItemSelected(item);
+    }
+//    private void logout() {
+//        final AlertDialog.Builder alert = new AlertDialog.Builder(ProductActivity.this);
+//        alert.setTitle("Confirmation");
+//        alert.setMessage("Do you want to logout?");
+//        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+//                startActivity(intent);
+//                getOrderProduct().clear();
+//                getOrderPID().clear();
+//                getQtyProducts().clear();
+//                finish();
+//            }
+//        });
+//    }
 
     public void initializeConnection(){
         try {

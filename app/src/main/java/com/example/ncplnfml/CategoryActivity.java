@@ -44,6 +44,7 @@ public class CategoryActivity extends AppCompatActivity {
     static ArrayList<String> orderProducts = new ArrayList<>();
     static ArrayList<String> qtyProducts = new ArrayList<>();
     static ArrayList<String> orderPID = new ArrayList<>();
+    static ArrayList<String> avaProducts = new ArrayList<>();
 
     RecyclerView recyclerView;
     private String categoryQuery;
@@ -126,27 +127,15 @@ public class CategoryActivity extends AppCompatActivity {
 
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_layout,menu);
+
+
 //        invalidateOptionsMenu();
 
 
         return super.onCreateOptionsMenu(menu);
     }
 
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu) {
-//        MenuItem item = menu.findItem(R.id.emp_info);
-//        if (item.getTitle().equals("")) {
-//            item.setTitle(employeeName);
-//
-//            //inBed = false;
-//        }
-////        else {
-////            item.setTitle("Set to 'In bed'");
-////            inBed = true;
-////        }
-//
-//        return super.onPrepareOptionsMenu(menu);
-//    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -172,8 +161,9 @@ public class CategoryActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.logout){
 
             logout();
+            return true;
 
-            return  true;
+
         }
 //        if(item.getItemId() == R.id.emp_info){
 //
@@ -194,9 +184,9 @@ public class CategoryActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
                 startActivity(intent);
-                orderProducts.clear();
-                orderPID.clear();
-                qtyProducts.clear();
+                getOrderProduct().clear();
+                getOrderPID().clear();
+                getQtyProducts().clear();
                 finish();
             }
         });
@@ -215,18 +205,20 @@ public class CategoryActivity extends AppCompatActivity {
         return category;
     }
 
-    public static void addToArray(String s, String p,String q){
+    public static void addToArray(String s, String p,String q,String a){
         orderProducts.add(s);
         orderPID.add(p);
         qtyProducts.add(q);
+        avaProducts.add(a);
 //        Log.d("add", s+"--"+i);
 //        Log.d("pid", p+"--"+);
     }
 
-    public static void updateArray(String s,String p,String q,int position){
+    public static void updateArray(String s,String p,String q,String a,int position){
         orderProducts.set(position,s);
         orderPID.set(position,p);
         qtyProducts.set(position,q);
+        avaProducts.set(position,a);
 
     }
 
@@ -237,6 +229,7 @@ public class CategoryActivity extends AppCompatActivity {
         orderProducts.remove(pos);
         orderPID.remove(pos);
         qtyProducts.remove(pos);
+        avaProducts.remove(pos);
     }
 //    public static void addQty(int position, String q){
 //        qtyProducts.add(position, q);
@@ -270,6 +263,7 @@ public static int findPosition(String pid){
     public static ArrayList<String>getOrderPID(){
         return orderPID;
     }
+    public static ArrayList<String>getAvaProducts(){return avaProducts;}
     public void initializeConnection(){
         try {
             this.connection = createConnection();

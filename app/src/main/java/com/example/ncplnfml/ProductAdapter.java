@@ -114,9 +114,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
 
                                 holder.qty.setText(product.getAvaQty());
                             }
-                            updateArray(product.getProduct(),product.getPID(),holder.qty.getText().toString(),pos);
+                            updateArray(product.getProduct(),product.getPID(),holder.qty.getText().toString(),product.getAvaQty(),pos);
                         }else{
-                            addToArray(product.getProduct(),product.getPID(),holder.qty.getText().toString());
+                            addToArray(product.getProduct(),product.getPID(),holder.qty.getText().toString(),product.getAvaQty());
                         }
 
                         //addQty(position,holder.qty.getText().toString());

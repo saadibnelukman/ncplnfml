@@ -76,7 +76,7 @@
                 android:inputType="number"
                 android:text="0"
                 android:background="@color/colorPrimary"
-                android:textSize="30sp"
+                android:textSize="25sp"
                 android:textAlignment="center"/>
 
             <Button

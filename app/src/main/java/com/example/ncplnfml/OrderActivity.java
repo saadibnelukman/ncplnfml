@@ -42,6 +42,7 @@ import static com.example.ncplnfml.LoginActivity.employeeNumber;
 import static com.example.ncplnfml.LoginActivity.orgId;
 import static com.example.ncplnfml.LoginActivity.user_type;
 import static com.example.ncplnfml.ProductActivity.ava_qty;
+import static com.example.ncplnfml.ProductActivity.model;
 
 public class OrderActivity extends AppCompatActivity {
 
@@ -62,7 +63,7 @@ public class OrderActivity extends AppCompatActivity {
         ArrayList<String> qtyProducts = new ArrayList<>();
         ArrayList<String> ordersPID = new ArrayList<>();
 
-        Model[] model;
+       // Model[] model;
 
         String orderPID, qtyProduct;
 
@@ -99,10 +100,10 @@ public class OrderActivity extends AppCompatActivity {
 //
 //            ordersPID = getIntent().getStringArrayListExtra("pid");
 //        }
-        model = new Model[getOrderProduct().size()];
-        for(int i=0; i< model.length;i++) {
-            model[i] = new Model(getOrderProduct().get(i),getOrderPID().get(i),ava_qty.get(i));
-        }
+//        model = new Model[getOrderProduct().size()];
+//        for(int i=0; i< model.length;i++) {
+//            model[i] = new Model(getOrderProduct().get(i),getOrderPID().get(i),ava_qty.get(i));
+//        }
 
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
