@@ -77,7 +77,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 //                int pos = findPosition(getOrderPID().get(position));
 //                updateArray(getQtyProducts().get(position),getOrderPID().get(position),holder.qty.getText().toString(),pos);
 
-                int pos = findPosition(getOrderPID().get(position));
+                int pos = findPosition(s.toString());
                 if(holder.qty.getText().toString().equals("")){
 
                     return;

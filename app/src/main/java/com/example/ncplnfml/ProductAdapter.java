@@ -74,7 +74,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyNewVie
          final Model product=products[position];
         holder.productTextView.setText(product.getProduct());
         //holder.qty.setText(getQtyProducts().get(position));
-        holder.ava_qty.setText(product.getAvaQty());
+        holder.ava_qty.setText("Ava.: " +product.getAvaQty());
 
         if(getQtyProducts().size() > 0){
         int pos = findPosition(product.getPID());

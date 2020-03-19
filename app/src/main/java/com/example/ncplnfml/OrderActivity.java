@@ -166,6 +166,8 @@ public class OrderActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Intent intent = new Intent(OrderActivity.this,CategoryActivity.class);
+        startActivity(intent);
         finish();
     }
 

@@ -137,7 +137,7 @@ public class ProductActivity extends AppCompatActivity {
         productAdapter = new ProductAdapter(this,model);
         recyclerView.setAdapter(productAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        //recyclerView.setItemAnimator(new DefaultItemAnimator());
 //        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,1);
 //        recyclerView.setLayoutManager(gridLayoutManager);
 
