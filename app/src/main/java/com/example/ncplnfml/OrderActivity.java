@@ -168,7 +168,7 @@ public class OrderActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(OrderActivity.this,CategoryActivity.class);
         startActivity(intent);
-        finish();
+
     }
 
     public boolean insertMaster(){

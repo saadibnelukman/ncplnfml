@@ -53,7 +53,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull final OrderAdapter.MyViewHolder holder, final int position) {
 
-        final Model product = products[position];
+        //final Model product = products[position];
 
         holder.productName.setText(getOrderProduct().get(position));
         holder.qty.setText(getQtyProducts().get(position));
@@ -76,23 +76,28 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 //
 //                int pos = findPosition(getOrderPID().get(position));
 //                updateArray(getQtyProducts().get(position),getOrderPID().get(position),holder.qty.getText().toString(),pos);
+                //Log.d("pos", String.valueOf(pos));
+                Log.d("position", ""+position);
+                if (getOrderPID().size() > position) {
 
-                int pos = findPosition(s.toString());
-                if(holder.qty.getText().toString().equals("")){
+                    int pos = findPosition(getOrderPID().get(position));
 
-                    return;
-                }
+                    Log.d("pos", String.valueOf(pos));
+                    Log.d("position", "" + position);
+                    if (holder.qty.getText().toString().equals("") || s.toString().equals("")) {
+                        holder.qty.setText("0");
+                    }
 //                if (Integer.parseInt(holder.qty.getText().toString()) > 0){
 //                    holder.myCheckBox.setChecked(true);
                     // Model currentProduct=products[position];
-                    if(Integer.parseInt(holder.qty.getText().toString()) > 0 ) {
+                    if (Integer.parseInt(holder.qty.getText().toString()) > 0) {
                         // currentProduct.setSelected(true);
                         // checkedProducts.add(currentProduct);
-                        if(pos != -1){
-                            if(Integer.parseInt(getAvaProducts().get(pos)) < Integer.parseInt(holder.qty.getText().toString())){
+                        if (pos >= 0) {
+                            if (Integer.parseInt(getAvaProducts().get(pos)) < Integer.parseInt(holder.qty.getText().toString())) {
 
                                 holder.qty.setText(getAvaProducts().get(pos));
-                                updateArray(getOrderProduct().get(pos),getOrderPID().get(pos),holder.qty.getText().toString(),getAvaProducts().get(pos),pos);
+                                updateArray(getOrderProduct().get(pos), getOrderPID().get(pos), holder.qty.getText().toString(), getAvaProducts().get(pos), pos);
 
                             }
 
@@ -106,9 +111,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
                         //deleteFromArray(pos);
                         //holder.submitBtn.setVisibility(View.INVISIBLE);
 
-                        holder.qty.setText(newQ);
+                        //holder.qty.setText(newQ);
 
                     }
+                }
 
 //                }
 //                else{
