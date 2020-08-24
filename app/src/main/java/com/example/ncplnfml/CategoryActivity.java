@@ -269,7 +269,7 @@ public static int findPosition(String pid){
             this.connection = createConnection();
             //statement = connection.createStatement();
             connectivity = true;
-            Toast.makeText(this, "Connected.", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Connected.", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             connectivity = false;
             Toast.makeText(this, "Connection error check internet connection and try again.", Toast.LENGTH_LONG).show();

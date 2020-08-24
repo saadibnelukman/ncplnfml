@@ -125,7 +125,7 @@ public class ProductActivity extends AppCompatActivity {
             for(int i=0; i< model.length;i++) {
                 model[i] = new Model(product.get(i),pid.get(i),ava_qty.get(i));
             }
-            Toast.makeText(ProductActivity.this,model.length+"", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(ProductActivity.this,model.length+"", Toast.LENGTH_SHORT).show();
 
 
             connection.close();

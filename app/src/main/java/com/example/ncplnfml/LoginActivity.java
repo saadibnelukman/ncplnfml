@@ -38,8 +38,8 @@ import fr.ganfra.materialspinner.MaterialSpinner;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String DEFAULT_DRIVER = "oracle.jdbc.driver.OracleDriver";
-    private static final String DEFAULT_URL = "jdbc:oracle:thin:@10.0.0.3:1521/orcl"; //CWPL IP
-    //private static final String DEFAULT_URL = "jdbc:oracle:thin:@163.47.147.74:1521/cwpl";   //Real IP
+//    private static final String DEFAULT_URL = "jdbc:oracle:thin:@10.0.0.3:1521/orcl";
+    private static final String DEFAULT_URL = "jdbc:oracle:thin:@192.168.200.108:1521/HRDATA";
     private static String DEFAULT_USERNAME = "RSSALES";
     private static String DEFAULT_PASSWORD = "123";
 
@@ -87,8 +87,8 @@ public class LoginActivity extends AppCompatActivity {
 
         userName =  findViewById(R.id.username);
         password =  findViewById(R.id.password);
-        signinbtn = (Button) findViewById(R.id.signinbtn);
-        spinner = (MaterialSpinner) findViewById(R.id.orgSpinner);
+        signinbtn = findViewById(R.id.signinbtn);
+        spinner = findViewById(R.id.orgSpinner);
 
 
         String orgQuery = "select DISTINCT(ORG_ID) from INVENTORY_ITEM";
@@ -266,7 +266,7 @@ public class LoginActivity extends AppCompatActivity {
             connectivity = true;
 
             //showAlertBox("Connection","You are Connected");
-            Toast.makeText(this, "Connected.", Toast.LENGTH_LONG).show();
+//            Toast.makeText(this, "Connected.", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             connectivity = false;
             Toast.makeText(this, "Connection error check internet connection and try again.", Toast.LENGTH_LONG).show();
